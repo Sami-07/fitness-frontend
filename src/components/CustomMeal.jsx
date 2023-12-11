@@ -13,8 +13,7 @@ export default function CustomMeal() {
   const data = useSelector(state => state.customMeals.allCustomMeals.data);
   const search = useLocation().search;
   const mealType = new URLSearchParams(search).get('mealtype');
-  console.log("mealtype", mealType);
-  console.log("data", data);
+
   useEffect(() => {
     dispatch(fetchCustomMeals());
   }, [])

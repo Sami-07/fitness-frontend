@@ -3,7 +3,7 @@ import { getFoodNutrients } from "../api";
 export async function redirectExistingFoodInfo({foodName, mealType}) {
  
 const foodInfo = await getExistingMealNutrients(foodName, mealType);
-console.log("food info bb", foodInfo);
+
   const tempFoodData = {
     [foodName]:
     {

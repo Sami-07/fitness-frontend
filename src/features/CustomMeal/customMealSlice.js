@@ -9,7 +9,7 @@ const initialState = {
 export const fetchCustomMeals = createAsyncThunk("fetchCustomMeals", async () => {
     try {
         const result = await api.getAllCustomMeals();
-        console.log("result", result);
+      
         return result;
     } catch (error) {
         console.log(error.message);
@@ -22,9 +22,9 @@ export const customMealSlice = createSlice({
     reducers: {
         addCustomMeal: async (state, action) => {
             try {
-                console.log("skfkdsj")
+              
                 const result = await api.addCustomMeal(action.payload);
-                console.log(action.payload)
+           
             } catch (error) {
                 console.log(error.message);
             }
@@ -33,9 +33,9 @@ export const customMealSlice = createSlice({
     },
     extraReducers: {
         [fetchCustomMeals.fulfilled]: (state, action) => {
-            console.log("inside");
+         
             state.allCustomMeals =  action.payload;
-            console.log("state", action.payload);
+          
         }
     }
 })

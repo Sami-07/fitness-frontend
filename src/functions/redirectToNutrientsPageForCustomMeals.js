@@ -1,7 +1,7 @@
 export async function redirectToNutrientsPageForCustomMeals({ foodData, mealType }) {
 
 
-  console.log("function", foodData, mealType)
+ 
   const foodInfo = foodData;
   const tempFoodData = {
     [foodInfo["mealName"]]:
@@ -15,7 +15,7 @@ export async function redirectToNutrientsPageForCustomMeals({ foodData, mealType
       isCustomMeal : true
     }
   }
-  console.log(tempFoodData);
+
   const p = JSON.stringify(tempFoodData)
   window.location.href = `/nutrientsinfo?fooddata=${p}&mealtype=${mealType}`
 }

@@ -15,17 +15,42 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import MacroNutrientsContent from "./components/MacroNutrientsContent";
 import AddCustomMeal from "./components/AddCustomMeal";
-function App() {
+import Register from "./components/Register";
+import Login from "./components/Login";
+import { auth } from "./firebase/config";
+import { login, loginExistingUser, logout } from "./features/Auth/authSlice";
 
+function App() {
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+
+        dispatch(loginExistingUser(user));
+      } else {
+        // User is logged out
+        dispatch(logout());
+      }
+    });
+
+    // Cleanup the observer when the component unmounts
+    return () => unsubscribe();
+  }, [dispatch]);
+
+  console.log("check log in", isLoggedIn);
   return (
     <div className="">
-    <div >
-      <Navbar />
+      <div >
+        <Navbar />
       </div>
       <div className="mt-12 ">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/about" element={<About />} />
             <Route path="/assessment" element={<Assessment />} />
             <Route path="/dashboard" element={<Dashboard />} />

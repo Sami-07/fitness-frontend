@@ -14,7 +14,7 @@ export default function MacroNutrientsContent() {
   const search = useLocation().search;
   const foodData = new URLSearchParams(search).get('fooddata');
   const mealType = new URLSearchParams(search).get('mealtype');
-  console.log("meal type", mealType);
+
   const dispatch = useDispatch();
   const [qtyOptions, setQtyOptions] = useState([]);
   const [qty, setQty] = useState("100");
@@ -68,7 +68,7 @@ export default function MacroNutrientsContent() {
 
 
 
-  }, [qty, unit])
+  }, [qty, unit,foodData])
   
 
   function calcNutrientsPerGram(foodInfo, qty){
@@ -101,10 +101,10 @@ export default function MacroNutrientsContent() {
     //TODO: Convert kg in grams or vice versa based on api data
 
     const newFoodInfo = foodInfo;
-    console.log("food info", Object.keys(newFoodInfo[foodName]));
+
     newFoodInfo[foodName]["qty"] = Number(qty);
     const newFoodInfo2 = calcNutrientsPerGram(foodInfo, qty);
-    console.log("This is new" , newFoodInfo2);
+
     if (mealType == "breakfast") {
       dispatch(addBreakfastData(newFoodInfo2));
     }

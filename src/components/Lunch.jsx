@@ -70,7 +70,7 @@ export default function Lunch() {
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].lunch) && Object.keys(result[0].lunch).map(foodItem => {
-            console.log("test data", result[0].lunch[foodItem]);
+        
             return (
               <div className=' flex justify-between'>
                 <div>

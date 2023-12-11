@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai"
 import FFlogo from "../images/FFlogo.png"
+import { useDispatch } from 'react-redux';
+import { logout } from '../features/Auth/authSlice';
 export default function Navbar() {
+  const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
 
   const links = {
@@ -11,10 +14,13 @@ export default function Navbar() {
     "My Tracker": "/dashboard",
     "Contact": "/contact"
   }
+  function handleLogout(){
+dispatch(logout());
+  }
   const entries = Object.entries(links)
   return (
     <div>
-      <nav className='bg-myprimecolor px-3 fixed top-0  h-[6vh] w-full flex justify-between items-center z-10'>
+      <nav className='flex bg-myprimecolor px-3 fixed top-0  h-[6vh] w-full  justify-between items-center z-10'>
         <img className='w-9 h-9 rounded-full' src={FFlogo} alt='logo' />
         <div className='hidden md:flex gap-10 justify-center items-center'>
 
@@ -23,9 +29,10 @@ export default function Navbar() {
               <a className='text-xl' href={value} >{key}</a>
             )
           })}
+          <p className='text-xl  cursor-pointer' onClick={handleLogout} >Logout</p>
         </div>
-        {!toggle && <HiOutlineMenuAlt3 onClick={() => setToggle(!toggle)} className='text-3xl' />}
-        {toggle && <AiOutlineClose onClick={() => setToggle(!toggle)} className='text-3xl' />}
+        {!toggle && <HiOutlineMenuAlt3 onClick={() => setToggle(!toggle)} className='text-3xl md:hidden' />}
+        {toggle && <AiOutlineClose onClick={() => setToggle(!toggle)} className='text-3xl md:hidden' />}
       </nav>
       {toggle && <div className='bg-fadedgreen z-20  w-full h-[94vh] flex flex-col justify-center  items-center gap-5 fixed top-[6vh]'>
         {entries.map(([key, value]) => {
@@ -33,7 +40,7 @@ export default function Navbar() {
             <a className='text-xl font-semibold  ' href={value} >{key}</a>
           )
         })}
-
+        <p className='text-xl font-semibold cursor-pointer' onClick={handleLogout} >Logout</p>
       </div>}
     </div>
   )

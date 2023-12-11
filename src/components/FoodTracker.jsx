@@ -24,30 +24,32 @@ export default function FoodTracker() {
   const [totalCalories, setTotalCalories] = useState(result);
   const [remainingCalories, setRemainingCalories] = useState(maxCaloriesIntake - result)
   const [per, setPer] = useState((result / maxCaloriesIntake) * 100);
-  console.log("resultX", result)
+
   useEffect(() => {
-
-
     dispatch(fetchMeals());
+    
+
+  }, [per])
+  useEffect(() => {
+    setPer((result / maxCaloriesIntake) * 100);
 
 
-    console.log("per 2 ", per)
-  }, [per]);
+  }, [result, maxCaloriesIntake, per])
   return (
     <div>
       <Heading title={"Food Tracker"} logo={<IoFastFoodOutline />} desc={"Track your food Intake."} />
 
-      {/* {result >= 0 && per >= 0 && 
-      <div className="flex justify-center items-center  border-2 mx-4 px-2 bg-white rounded-3xl -mt-1">
-        <MyRadialBar percentage={per} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />
+      {result >= 0 &&
+        <div className="flex justify-center items-center  border-2 mx-4 px-2 bg-white rounded-3xl -mt-1">
+          {per > 0 && <MyRadialBar percentage={(result / maxCaloriesIntake) * 100} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
 
-        <div className="font-medium">
-          <p className="font-">Hit your daily Calorie Goal</p>
-          <p className="text-xs">Remaining <span className="font-semibold">
-            {(maxCaloriesIntake - result).toPrecision(6)} Cal out of 2400 Cal
-          </span></p>
-        </div>
-      </div>} */}
+          <div className="font-medium">
+            <p className="font-">Hit your daily Calorie Goal</p>
+            <p className="text-xs">Remaining <span className="font-semibold">
+              {(maxCaloriesIntake - result).toPrecision(6)} Cal out of 2400 Cal
+            </span></p>
+          </div>
+        </div>}
       <div className='bg-slate-300 px-2 pb-4'>
         <Breakfast />
         <MorningSnacks />

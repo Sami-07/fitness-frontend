@@ -1,0 +1,108 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as api from "../../api";
+import { auth } from '../../firebase/config';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth"
+const initialState = {
+    isLoggedIn: false,
+    user: null
+
+}
+export const logout = createAsyncThunk("logout", async () => {
+    try {
+
+        await auth.signOut();
+    }
+    catch (err) {
+        throw err;
+    }
+})
+export const register = createAsyncThunk("register", async ({ auth, email, password, userName }) => {
+    try {
+
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+    
+        updateProfile(res.user, {
+            userName: userName
+        })
+        if (res) {
+            return { user: res.user }
+        }
+    }
+    catch (err) {
+        console.log("err", err.message);
+    }
+})
+export const login = createAsyncThunk("login", async ({ auth, email, password }) => {
+    try {
+
+        const res = await signInWithEmailAndPassword(auth, email, password);
+
+        if (res) {
+            return { user: res.user }
+        }
+    }
+    catch (err) {
+        console.log("err", err.message);
+    }
+})
+export const loginWithGoogle = createAsyncThunk("loginWithGoogle", async (user) => {
+    try {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const user = result.user;
+                return user;
+
+            })
+
+
+    }
+    catch (err) {
+        console.log("err", err.message);
+    }
+})
+
+
+export const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+        loginExistingUser: (state, action) => {
+            state.user = action.payload
+            state.isLoggedIn = true
+        }
+
+    },
+    extraReducers: {
+        [register.fulfilled]: (state, action) => {
+  
+            if (action.payload.user) {
+                state.isLoggedIn = true
+                state.user = action.payload.user
+               
+            }
+            else {
+                state.isLoggedIn = false
+            }
+        },
+        [logout.fulfilled]: (state, action) => {
+            state.user = null
+            state.isLoggedIn = false
+         
+        },
+        [login.fulfilled]: (state, action) => {
+            state.user = action.payload.user
+            state.isLoggedIn = true
+        },
+        [loginWithGoogle.fulfilled]: (state, action) => {
+            state.user = action.payload
+            state.isLoggedIn = true
+
+        }
+    }
+})
+export const { loginExistingUser } = authSlice.actions;
+export default authSlice.reducer;

@@ -1,7 +1,7 @@
 export async function customNutrients({foodName, foodData, mealType}) {
 
 
-    console.log("function", foodData, foodName)
+   
     const foodInfo = foodData;
       const tempFoodData = {
         [foodName]:
@@ -14,7 +14,7 @@ export async function customNutrients({foodName, foodData, mealType}) {
           sugar: foodInfo["sugar"]
         }
       }
-      console.log(tempFoodData);
+     
       const p = JSON.stringify(tempFoodData)
       window.location.href = `/nutrientsinfo?fooddata=${p}&mealtype=${mealType}`
     }

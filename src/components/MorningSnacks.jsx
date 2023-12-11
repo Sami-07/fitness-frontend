@@ -32,7 +32,7 @@ export default function MorningSnacks() {
 
       calcCalories();
     }
-    //  console.log(totalCalories);
+
   }, [totalCalories])
   function handleDelete(foodItem, mealType) {
     removeMeal(foodItem, mealType)

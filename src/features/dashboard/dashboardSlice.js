@@ -21,6 +21,7 @@ const initialState = {
 export const fetchMeals = createAsyncThunk("fetchMeals", async () => {
     try {
         const result = await api.getMeals();
+    
         return result;
     }
     catch (err) {
@@ -79,7 +80,7 @@ export const dashboardSlice = createSlice({
         }
       },
 calcPercentage  : (state,action) =>{
-    console.log("inside action", action.payload)
+  
 
   
 }
@@ -88,15 +89,16 @@ calcPercentage  : (state,action) =>{
     extraReducers: {
         [fetchMeals.fulfilled]: (state, action) => {
             state.foodData = action.payload;
-            const obj = action.payload.data[0]
+         
 
             let sum = 0;
-            if (obj) {
+            if (action.payload.data[0]) {
+                const obj = action.payload.data[0]
                 if (obj.breakfast) {
                     Object.keys(obj.breakfast).map(foodName => {
                         sum += obj["breakfast"][foodName]["calories"]
                     })
-                    console.log(sum)
+               
                     state.breakfastCalories = sum;
                 }
                 sum = 0
@@ -126,8 +128,7 @@ calcPercentage  : (state,action) =>{
                         sum += obj["dinner"][foodName]["calories"]
                     })
                     state.dinnerCalories = sum;
-                    console.log(sum);
-                    console.log("state sum", state.dinnerCalories);
+                  
                 }
                 state.totalCalories = state.breakfastCalories + state.morningSnacksCalories + state.lunchCalories + state.eveningSnacksCalories + state.dinnerCalories
                 state.totalPercentageCal = (state.totalCalories /  2400) * 100;

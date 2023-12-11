@@ -1,10 +1,63 @@
-const url = "http://localhost:5000/dashboard"
+import { auth } from "../firebase/config";
 
-export async function getMeals() {
-    const result = await fetch(url + "/getmeals");
-    const parsedResult = await result.json();
-    return { data: parsedResult.data }
+const url = "http://localhost:5000/dashboard"
+const baseUrl = "http://localhost:5000"
+
+export async function register(userInfo) {
+    try {
+
+
+        const data = await fetch(baseUrl + "/register", {
+            method: "POST",
+            headers: {
+
+                "Content-Type": "application/json",
+
+            },
+            body: JSON.stringify(userInfo)
+        })
+
+        const pasredData = await data.json();
+       
+        return { result: pasredData };
+
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+
+
 }
+
+export function getMeals() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    // User is logged in
+                    const idToken = await user.accessToken;
+               
+                    const result = await fetch(url + "/getmeals", {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${idToken}`,
+                        },
+                    });
+                    const parsedResult = await result.json();
+           
+                    resolve({ data: parsedResult.data });
+                }
+            });
+        } catch (err) {
+            console.log(err.message);
+            reject(err);
+        }
+    });
+}
+
+
+
+
 export async function fetchBreakfastData() {
     await fetch('http://localhost:5000/dashboard/getbreakfastinfo')
 }
@@ -89,10 +142,10 @@ export async function getFoodNutrients(foodName) {
         body: JSON.stringify({ foodName })
     })
     const response = await data.json()
-    console.log("r", response);
+   
     if (response) {
 
-        console.log("data", response)
+      
         return { data: response.data }
     }
 }
@@ -106,16 +159,16 @@ export async function getExistingMealNutrients(foodName, mealType) {
         body: JSON.stringify({ foodName, mealType })
     })
     const parsed = await data.json();
-    if(parsed){
+    if (parsed) {
 
-        console.log("recent", parsed)
+    
         return parsed;
     }
 }
 export async function getAllCustomMeals() {
     const response = await fetch(url + "/getallcustommeals");
     const parsedRes = await response.json();
-    console.log("api", response);
+
     if (parsedRes) {
         return parsedRes;
     }

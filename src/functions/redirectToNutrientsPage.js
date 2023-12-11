@@ -1,7 +1,7 @@
 import { getFoodNutrients } from "../api";
 export async function redirectToNutrientsPage({foodName, mealType}) {
   const response = await getFoodNutrients(foodName);
-console.log("check", mealType)
+
   const foodInfo = response.data[0];
 
   const tempFoodData = {

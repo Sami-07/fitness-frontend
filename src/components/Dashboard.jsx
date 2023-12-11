@@ -20,30 +20,21 @@ export default function Dashboard() {
     const [per, setPer] = useState((tempCal / maxCaloriesIntake) * 100);
     const month = today.toLocaleString('default', { month: 'short' });
     useEffect(() => {
-        async function X() {
+        dispatch(fetchMeals());
+     
 
-
-            await dispatch(fetchMeals());
-            // dispatch(calcPercentage(maxCaloriesIntake))
-            console.log("this is state percentage", totalPer);
-
-        }
-        X();
-
-    }, [])
+    }, [per])
     useEffect(() => {
-
-
         setPer((result / maxCaloriesIntake) * 100);
-        console.log("percentage", per)
+        
         setTempCal(result);
-    }, [result, maxCaloriesIntake, tempCal])
+    }, [result, maxCaloriesIntake, tempCal, per])
     return (
         <div> <Heading title={"Fitness Tracker"} logo={<MdOutlineFitbit />} />
             <div onClick={() => window.location.href = "/foodtracker"} className="bg-myprimecolor h-[20vh] mx-4 border-2  shadow-xl rounded-3xl">
 
-                {result > 0 && per > 0 && <div className="flex justify-center items-center  border-2 px-2 bg-white rounded-3xl -mt-1">
-                    <MyRadialBar percentage={per} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />
+                {result >= 0 && <div className="flex justify-center items-center  border-2 px-2 bg-white rounded-3xl -mt-1">
+                    {per > 0 && <MyRadialBar percentage={(result / maxCaloriesIntake) * 100} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
                     <div className="font-medium">
                         <p className="font-">Hit your daily Calorie Goal</p>
                         <p className="text-xs">Remaining <span className="font-semibold">

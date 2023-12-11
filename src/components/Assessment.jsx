@@ -31,11 +31,7 @@ export default function Assessment() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Age ", age);
-    console.log("Gender ", gender);
-    console.log("Weight ", weight);
-    console.log("Goal ", goal);
-    console.log("Goal Weight ", goalWeight);
+   
   }
   const [ageOptions, setAgeOptions] = useState([]);
   const [weightOptions, setWeightOptions] = useState([]);
