@@ -21,7 +21,7 @@ const initialState = {
 export const fetchMeals = createAsyncThunk("fetchMeals", async () => {
     try {
         const result = await api.getMeals();
-    
+
         return result;
     }
     catch (err) {
@@ -72,24 +72,24 @@ export const dashboardSlice = createSlice({
                 throw err;
             }
         },
-      removeMeal : async (state, action)=>{
-        try {
-           await api.removeMeal(action.payload)
-        } catch (err) {
-          console.log(err.message);  
-        }
-      },
-calcPercentage  : (state,action) =>{
-  
+        removeMeal: async (state, action) => {
+            try {
+                await api.removeMeal(action.payload)
+            } catch (err) {
+                console.log(err.message);
+            }
+        },
+        calcPercentage: (state, action) => {
 
-  
-}
+
+
+        }
 
     },
     extraReducers: {
         [fetchMeals.fulfilled]: (state, action) => {
             state.foodData = action.payload;
-         
+
 
             let sum = 0;
             if (action.payload.data[0]) {
@@ -98,7 +98,7 @@ calcPercentage  : (state,action) =>{
                     Object.keys(obj.breakfast).map(foodName => {
                         sum += obj["breakfast"][foodName]["calories"]
                     })
-               
+
                     state.breakfastCalories = sum;
                 }
                 sum = 0
@@ -128,11 +128,11 @@ calcPercentage  : (state,action) =>{
                         sum += obj["dinner"][foodName]["calories"]
                     })
                     state.dinnerCalories = sum;
-                  
+
                 }
                 state.totalCalories = state.breakfastCalories + state.morningSnacksCalories + state.lunchCalories + state.eveningSnacksCalories + state.dinnerCalories
-                state.totalPercentageCal = (state.totalCalories /  2400) * 100;
-               
+                state.totalPercentageCal = (state.totalCalories / 2400) * 100;
+
 
             }
 
@@ -140,6 +140,6 @@ calcPercentage  : (state,action) =>{
     }
 })
 
-export const { addBreakfastData, addMorningSnacksData, addLunch, addEveningSnacks, addDinner,removeMeal,calcPercentage } = dashboardSlice.actions;
+export const { addBreakfastData, addMorningSnacksData, addLunch, addEveningSnacks, addDinner, removeMeal, calcPercentage } = dashboardSlice.actions;
 
 export default dashboardSlice.reducer;

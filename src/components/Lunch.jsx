@@ -66,7 +66,7 @@ export default function Lunch() {
       <div>
 
         <div className='flex justify-between pt-4 pb-2'>
-          <p>Lunch</p><p>{calories} of 712 Cal</p>
+          <p>Lunch</p><p>{calories.toFixed(2)} of 712 Cal</p>
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].lunch) && Object.keys(result[0].lunch).map(foodItem => {
@@ -88,7 +88,7 @@ export default function Lunch() {
                     }} className='underline underline-offset-2 cursor-pointer'>Nutrients Info.</p>
                   </div>
                 </div>
-                <div className='flex gap-4 items-center'><p>{result[0].lunch[foodItem].calories} Cal</p><FaCircleMinus onClick={() => handleDelete(foodItem, "lunch")} className=' text-xl' /> </div>
+                <div className='flex gap-4 items-center'><p>{result[0].lunch[foodItem].calories.toFixed(2)} Cal</p><FaCircleMinus onClick={() => handleDelete(foodItem, "lunch")} className=' text-xl' /> </div>
               </div>
             )
           })}

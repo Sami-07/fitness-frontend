@@ -63,7 +63,7 @@ export default function EveningSnacks() {
       <div>
 
         <div className='flex justify-between pt-4 pb-2'>
-          <p>Evening Snacks</p><p>{calories} of 712 Cal</p>
+          <p>Evening Snacks</p><p>{calories.toFixed(2)} of 712 Cal</p>
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].eveningSnacks) && Object.keys(result[0].eveningSnacks).map(foodItem => {
@@ -113,7 +113,7 @@ export default function EveningSnacks() {
           </div>
           <div className='flex gap-2 text-sm px-4'>
             <p>Can&#39;t find your meal?</p>
-            <a href={`/custommeal?mealtype=eveningsnacks`} className='font-semibold underline underline-offset-2'> Add from Custom Meals </a>
+            <a href={`/custommeal?mealtype=eveningsnacks`} className='font-semibold underline underline-offset-2'> Add from Custom Meals</a>
           </div>
         </div>
       </div>

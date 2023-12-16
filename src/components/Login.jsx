@@ -10,7 +10,12 @@ import { auth } from '../firebase/config';
 import { signInWithEmailAndPassword } from "firebase/auth"
 
 export default function Login() {
-
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  useEffect(() => {
+         if (isLoggedIn) {
+             window.location.href = "/dashboard";
+         }
+     }, [isLoggedIn])
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

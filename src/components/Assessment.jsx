@@ -8,8 +8,14 @@ import female from "../images/female.png";
 import loseweight from "../images/loseweight.png";
 import gainweight from "../images/gainweight.png";
 import Button from '../ReusableComponents/Button';
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+// import { addAssessmentDetail } from '../features/Assessment/assessmentSlice';
+import { addAssessmentDetails } from '../api';
 export default function Assessment() {
+  const dispatch = useDispatch();
   useEffect(() => {
     function generateOptions() {
       let ageOptions = [];
@@ -29,9 +35,58 @@ export default function Assessment() {
     generateWeightOptions();
   }, [])
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-   
+    if (!age) {
+
+    }
+    else if (!gender) {
+
+    }
+    else if (!weight) {
+
+    }
+    else if (!goal) {
+
+    }
+    else if (!goalWeight) {
+
+    }
+    else {
+      const res = await addAssessmentDetails({ age, gender, weight, goal, goalWeight })
+      console.log("res status", res)
+      if (res.result) {
+
+        setTimeout(() => {
+          window.location.href = "/dashboard"
+        }, 2000)
+        toast.success('Assessment recorded successfully!', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+
+
+      }
+      else {
+        toast.error('Please try again.', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    }
+
   }
   const [ageOptions, setAgeOptions] = useState([]);
   const [weightOptions, setWeightOptions] = useState([]);
@@ -44,6 +99,18 @@ export default function Assessment() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <Heading title="Assessment" logo={<CiMemoPad />} desc={"Please answer the next 4 questions to get started using this App."} />
       <div className='text-center w-[50vw] mx-auto'>
         <p className='text-lg font-medium'>Select your Age</p>

@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth } from '../firebase/config';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-// import { register } from '../features/Auth/authSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { loginWithGoogle } from '../features/Auth/authSlice';
 import { register } from '../features/Auth/authSlice';
 export default function Register() {
@@ -17,22 +18,91 @@ export default function Register() {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-
+    const authError = useSelector(state => state.auth.error)
+    useEffect(() => {
+        if (isLoggedIn) {
+            window.location.href = "/dashboard";
+        }
+    }, [isLoggedIn])
     console.log("check log in", isLoggedIn);
-
+    console.log("error auth", authError)
     async function handleGoogleLogin() {
 
         dispatch(loginWithGoogle())
     }
     async function handleSubmit(e) {
         e.preventDefault();
-      
-        dispatch(register({ auth, email, password, userName }));
-        
+
+        if (!(userName.length >= 3)) {
+            toast.error('Please enter a 3 characters username', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+        else if (!(email.length >= 3)) {
+            toast.error('Please enter a valid email', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+
+        }
+        else if (!(password.length >= 8)) {
+            toast.error('Please enter a 8 characters password', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+
+        }
+
+        else {
+            dispatch(register({ auth, email, password, userName }));
+        }
+
+
 
     }
     return (
         <div>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+            {authError && toast.error(authError, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })}
             <img className=' h-14 w-14 mx-auto mt-20 -mb-5 rounded-lg' src={FFlogo} alt='logo' />
             <Heading title={"Create an Account"} />
             <form onSubmit={handleSubmit} className='flex flex-col gap-5'>

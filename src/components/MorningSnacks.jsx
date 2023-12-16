@@ -65,7 +65,7 @@ export default function MorningSnacks() {
       <div>
 
         <div className='flex justify-between pt-4 pb-2'>
-          <p>Morning Snacks</p><p>{calories} of 712 Cal</p>
+          <p>Morning Snacks</p><p>{calories.toFixed(2)} of 712 Cal</p>
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].morningSnacks) && Object.keys(result[0].morningSnacks).map(foodItem => {
@@ -75,18 +75,20 @@ export default function MorningSnacks() {
                   <p className='text-xl capitalize '>{foodItem}</p>
                   <div className='flex gap-8 '>
                     <p>Qty :{result[0].morningSnacks[foodItem].qty} g</p>
-                    <p onClick={() => { {
-                      if (result[0].morningSnacks[foodItem].isCustomMeal) {
+                    <p onClick={() => {
+                      {
+                        if (result[0].morningSnacks[foodItem].isCustomMeal) {
 
-                        customNutrients({ foodName: foodItem, foodData: result[0].morningSnacks[foodItem], mealType: "morningsnacks" })
+                          customNutrients({ foodName: foodItem, foodData: result[0].morningSnacks[foodItem], mealType: "morningsnacks" })
+                        }
+                        else {
+                          redirectToNutrientsPage({ foodName: foodItem })
+                        }
                       }
-                      else {
-                        redirectToNutrientsPage({ foodName: foodItem })
-                      }
-                    }}} className='underline underline-offset-2 cursor-pointer'>Nutrients Info.</p>
+                    }} className='underline underline-offset-2 cursor-pointer'>Nutrients Info.</p>
                   </div>
                 </div>
-                <div className='flex gap-4 items-center'><p>{result[0].morningSnacks[foodItem].calories} Cal</p><FaCircleMinus onClick={() => handleDelete(foodItem, "morningSnacks")}  className=' text-xl' /> </div>
+                <div className='flex gap-4 items-center'><p>{result[0].morningSnacks[foodItem].calories.toFixed(2)} Cal</p><FaCircleMinus onClick={() => handleDelete(foodItem, "morningSnacks")} className=' text-xl' /> </div>
               </div>
             )
           })}

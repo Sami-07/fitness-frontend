@@ -19,29 +19,35 @@ export default function Dashboard() {
     const date = today.getDate();
     const [per, setPer] = useState((tempCal / maxCaloriesIntake) * 100);
     const month = today.toLocaleString('default', { month: 'short' });
+
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     useEffect(() => {
         dispatch(fetchMeals());
-     
+        //  if(!isLoggedIn){
+        //     window.location.href = "/register"
+        //  }
 
     }, [per])
     useEffect(() => {
         setPer((result / maxCaloriesIntake) * 100);
-        
+
         setTempCal(result);
     }, [result, maxCaloriesIntake, tempCal, per])
     return (
         <div> <Heading title={"Fitness Tracker"} logo={<MdOutlineFitbit />} />
             <div onClick={() => window.location.href = "/foodtracker"} className="bg-myprimecolor h-[20vh] mx-4 border-2  shadow-xl rounded-3xl">
 
-                {result >= 0 && <div className="flex justify-center items-center  border-2 px-2 bg-white rounded-3xl -mt-1">
-                    {per > 0 && <MyRadialBar percentage={(result / maxCaloriesIntake) * 100} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
-                    <div className="font-medium">
-                        <p className="font-">Hit your daily Calorie Goal</p>
-                        <p className="text-xs">Remaining <span className="font-semibold">
-                            {(maxCaloriesIntake - result).toPrecision(6)} Cal out of 2400 Cal
-                        </span></p>
-                    </div>
-                </div>}
+                {result >= 0 &&
+                    <div className="flex justify-center items-center  border-2 mx-0 px-2 bg-white rounded-3xl -mt-1">
+                        {per >= 0 && <MyRadialBar percentage={(result / maxCaloriesIntake) * 100} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+
+                        <div className="font-medium">
+                            <p className="font-">Hit your daily Calorie Goal</p>
+                            <p className="text-xs">Remaining <span className="font-semibold">
+                                {(maxCaloriesIntake - result).toPrecision(6)} Cal out of 2400 Cal
+                            </span></p>
+                        </div>
+                    </div>}
                 <div className="flex justify-center items-center gap-5 mt-2 text-white">
                     <div className="text-2xl">
                         <ImSpoonKnife />
@@ -69,7 +75,7 @@ export default function Dashboard() {
                         <MyRadialBar percentage={70} title={"Protein"} labelFontSize={"10px"} valueFontSize={"16px"} />
                         <p className="text-xs">70g of 120g remaining</p>
                     </div>
-                    <div className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
+                    <div onClick={() => window.location.href = "/weighttracker"} className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
                         <h3 className='text-center font-semibold'>Weight Tracker</h3>
                         <MyRadialBar percentage={70} title={"Weight"} labelFontSize={"10px"} valueFontSize={"16px"} />
                         <p className="text-xs">12kg of 42kg lost</p>

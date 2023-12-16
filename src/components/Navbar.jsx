@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai"
 import FFlogo from "../images/FFlogo.png"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/Auth/authSlice';
 export default function Navbar() {
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
-
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const links = {
     "Home": "/",
     "About": "/about",
@@ -40,7 +40,8 @@ dispatch(logout());
             <a className='text-xl font-semibold  ' href={value} >{key}</a>
           )
         })}
-        <p className='text-xl font-semibold cursor-pointer' onClick={handleLogout} >Logout</p>
+       {isLoggedIn && <p className='text-xl font-semibold cursor-pointer' onClick={handleLogout} >Logout</p>}
+       {!isLoggedIn && <p className='text-xl font-semibold cursor-pointer' onClick={()=>window.location.href = "/register"} >Login</p>}
       </div>}
     </div>
   )

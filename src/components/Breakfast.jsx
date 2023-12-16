@@ -65,10 +65,11 @@ export default function Breakfast() {
       <div>
 
         <div className='flex justify-between pt-4 pb-2'>
-          <p>Breakfast</p><p>{calories} of 712 Cal</p>
+          <p>Breakfast</p><p>{calories.toFixed(2)} of 712 Cal</p>
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].breakfast) && Object.keys(result[0].breakfast).map(foodItem => {
+           
             return (
               <div className=' flex justify-between'>
                 <div>
@@ -82,13 +83,15 @@ export default function Breakfast() {
                           customNutrients({ foodName: foodItem, foodData: result[0].breakfast[foodItem], mealType: "breakfast" })
                         }
                         else {
-                          redirectExistingFoodInfo({ foodName: foodItem , mealType : "breakfast"})
+                          redirectExistingFoodInfo({ foodName: foodItem, mealType: "breakfast" })
                         }
                       }
                     }} className='underline underline-offset-2 cursor-pointer'>Nutrients Info.</p>
                   </div>
                 </div>
-                <div className='flex gap-4 items-center'><p>{result[0].breakfast[foodItem].calories} Cal</p>
+                <div className='flex gap-4 items-center'><p>{
+                  parseFloat((result[0].breakfast[foodItem].calories).toFixed(2))
+                } Cal</p>
 
 
                   <FaCircleMinus onClick={() => handleDelete(foodItem, "breakfast")} className=' text-xl' />

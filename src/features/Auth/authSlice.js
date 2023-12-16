@@ -5,7 +5,8 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth"
 const initialState = {
     isLoggedIn: false,
-    user: null
+    user: null,
+    error: null
 
 }
 export const logout = createAsyncThunk("logout", async () => {
@@ -21,16 +22,17 @@ export const register = createAsyncThunk("register", async ({ auth, email, passw
     try {
 
         const res = await createUserWithEmailAndPassword(auth, email, password);
-    
+
         updateProfile(res.user, {
             userName: userName
         })
         if (res) {
+            const dbRegister = await api.register(userName, email)
             return { user: res.user }
         }
     }
     catch (err) {
-        console.log("err", err.message);
+        return { error: err.message }
     }
 })
 export const login = createAsyncThunk("login", async ({ auth, email, password }) => {
@@ -78,28 +80,41 @@ export const authSlice = createSlice({
     },
     extraReducers: {
         [register.fulfilled]: (state, action) => {
-  
+
             if (action.payload.user) {
                 state.isLoggedIn = true
                 state.user = action.payload.user
-               
+                state.error = null
+                window.location.href = "/dashboard"
+
             }
             else {
                 state.isLoggedIn = false
+                state.error = action.payload.error
             }
         },
         [logout.fulfilled]: (state, action) => {
             state.user = null
             state.isLoggedIn = false
-         
+
+
         },
         [login.fulfilled]: (state, action) => {
-            state.user = action.payload.user
-            state.isLoggedIn = true
+
+            if (action.payload.user) {
+                state.user = action.payload.user
+                state.isLoggedIn = true
+            }
+            else {
+                state.isLoggedIn = false
+                state.error = action.payload.error
+            }
+
         },
         [loginWithGoogle.fulfilled]: (state, action) => {
             state.user = action.payload
             state.isLoggedIn = true
+
 
         }
     }

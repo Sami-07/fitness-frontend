@@ -19,6 +19,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import { auth } from "./firebase/config";
 import { login, loginExistingUser, logout } from "./features/Auth/authSlice";
+import WeightTracker from "./components/WeightTracker";
 
 function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -61,6 +62,7 @@ function App() {
             <Route path="/trackworkout" element={<TrackWorkout />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/addcustommeal" element={<AddCustomMeal />} />
+            <Route path="/weighttracker" element={<WeightTracker />} />
           </Routes>
         </BrowserRouter>
       </div>
