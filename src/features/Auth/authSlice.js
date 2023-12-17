@@ -6,13 +6,16 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 const initialState = {
     isLoggedIn: false,
     user: null,
-    error: null
+    error: null,
+    email: null,
+    name: null
 
 }
 export const logout = createAsyncThunk("logout", async () => {
     try {
 
         await auth.signOut();
+     
     }
     catch (err) {
         throw err;
@@ -28,7 +31,7 @@ export const register = createAsyncThunk("register", async ({ auth, email, passw
         })
         if (res) {
             const dbRegister = await api.register(userName, email)
-            return { user: res.user }
+            return { user: res.user, email, userName }
         }
     }
     catch (err) {
@@ -83,9 +86,12 @@ export const authSlice = createSlice({
 
             if (action.payload.user) {
                 state.isLoggedIn = true
+                console.log("user in auth slice", action.payload)
                 state.user = action.payload.user
                 state.error = null
-                window.location.href = "/dashboard"
+                state.email = action.payload.email
+                state.name = action.payload.userName
+                // window.location.href = "/dashboard"
 
             }
             else {
@@ -94,6 +100,7 @@ export const authSlice = createSlice({
             }
         },
         [logout.fulfilled]: (state, action) => {
+            console.log("post logout")
             state.user = null
             state.isLoggedIn = false
 

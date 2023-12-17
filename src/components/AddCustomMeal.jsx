@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Heading from '../ReusableComponents/Heading'
 import { BiSolidDish } from "react-icons/bi";
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,11 +14,18 @@ export default function AddCustomMeal() {
     const [fiber, setFiber] = useState("");
     const [sugar, setSugar] = useState("");
     const dispatch = useDispatch();
+    const user = useSelector(state => state.auth.user);
+    const [email, setEmail] = useState("");
+    useEffect(() => {
 
+        if (user) {
+            setEmail(user.email);
+        }
+    }, [user])
     function handleSubmit(e) {
         e.preventDefault();
         const mealData = {
-            email: "s.a.sami359359@gmail.com",
+            email: email,
             mealName,
             calories,
             protein,

@@ -35,11 +35,11 @@ export default function Dashboard() {
     }, [result, maxCaloriesIntake, tempCal, per])
     return (
         <div> <Heading title={"Fitness Tracker"} logo={<MdOutlineFitbit />} />
-            <div onClick={() => window.location.href = "/foodtracker"} className="bg-myprimecolor h-[20vh] mx-4 border-2  shadow-xl rounded-3xl">
+            <div onClick={() => window.location.href = "/foodtracker"} className="cursor-pointer bg-myprimecolor h-[20vh] mx-4 border-2  shadow-xl rounded-3xl">
 
                 {result >= 0 &&
                     <div className="flex justify-center items-center  border-2 mx-0 px-2 bg-white rounded-3xl -mt-1">
-                        {per >= 0 && <MyRadialBar percentage={(result / maxCaloriesIntake) * 100} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+                        {per > 0 && <MyRadialBar percentage={(result / maxCaloriesIntake) * 100} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
 
                         <div className="font-medium">
                             <p className="font-">Hit your daily Calorie Goal</p>
@@ -48,7 +48,7 @@ export default function Dashboard() {
                             </span></p>
                         </div>
                     </div>}
-                <div className="flex justify-center items-center gap-5 mt-2 text-white">
+                <div className="cursor-pointer flex justify-center items-center gap-5 mt-2 text-white">
                     <div className="text-2xl">
                         <ImSpoonKnife />
                     </div>

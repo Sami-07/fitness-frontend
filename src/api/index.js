@@ -31,7 +31,7 @@ export async function register(userName, email) {
         })
 
         const pasredData = await data.json();
-
+        console.log("res of register", pasredData);
         return { result: pasredData };
 
     }
@@ -41,7 +41,7 @@ export async function register(userName, email) {
 
 
 }
-export async function addAssessmentDetails({ age, gender, weight, goal, goalWeight }) {
+export async function addAssessmentDetails({ age, gender, height, weight, approach, goalWeight, activityLevel }) {
     return new Promise(async (resolve, reject) => {
         try {
             auth.onAuthStateChanged(async (user) => {
@@ -54,10 +54,16 @@ export async function addAssessmentDetails({ age, gender, weight, goal, goalWeig
                             Authorization: `Bearer ${idToken}`
                         }
                         ,
-                        body: JSON.stringify({ age, gender, weight, goal, goalWeight })
+                        body: JSON.stringify({ age, gender, height, weight, approach, goalWeight, activityLevel })
                     },
                     )
                     const paredRes = await result.json();
+                    await fetch(url + "/calculatemacrointake", {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${idToken}`
+                        }
+                    })
                     if (result) {
                         resolve({ result: paredRes.status })
                     }
@@ -69,9 +75,55 @@ export async function addAssessmentDetails({ age, gender, weight, goal, goalWeig
         }
     })
 }
+export async function getUserAssessment() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    const idToken = await user.accessToken;
+                    const result = await fetch(url + "/getuserassessment", {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${idToken}`
+                        }
+                    })
+                    const parsedRes = await result.json();
+                    resolve({ parsedRes })
+                }
+            })
+        }
+        catch (err) {
+
+        }
+    })
+}
+
+//CALCULATE MACRO INTAKE
+export async function calculateIntake() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    const idToken = await user.accessToken;
+                    const res = await fetch(url + "/calculatemacrointake", {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${idToken}`
+                        }
+                    })
+                    const parsedRes = await res.json();
+                    resolve({ parsedRes });
+                }
+            })
+        }
+        catch (err) {
+
+        }
+    })
+}
 
 //ADD Body Weight to the database Everyday.
-export function addBodyWeight({ weight }) {
+export async function addBodyWeight({ weight }) {
     return new Promise(async (resolve, reject) => {
         try {
             console.log("weight in api", weight);
@@ -143,6 +195,21 @@ export function updateBodyWeight({ weight }) {
 
         }
     })
+}
+
+//FETCH search results from PUBLIC api
+export async function fetchResults(term) {
+
+    const res = await fetch(url + "/fetchresults", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ term })
+    })
+    const parsedRes = await res.json();
+    return parsedRes;
+
 }
 
 export function getMeals() {

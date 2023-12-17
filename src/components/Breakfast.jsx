@@ -7,11 +7,22 @@ import { fetchMeals } from '../features/dashboard/dashboardSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { customNutrients } from '../functions/customNutrients';
-import { removeMeal } from '../api';
+import { fetchResults, removeMeal } from '../api';
 import { redirectExistingFoodInfo } from '../functions/redirectExistingFoodInfo';
+import { FiArrowUpRight } from "react-icons/fi";
 export default function Breakfast() {
+  const [searchResults, setSearchResults] = useState([]);
+  async function handleChange(e) {
+    setFoodName(e.target.value)
 
+    const res = await fetchResults(e.target.value);
 
+    const nameArr = (res.data).map(item => {
+      return item.name
+    })
+    setSearchResults(nameArr);
+
+  }
   const [totalCalories, setTotalCalories] = useState(0);
   const result = useSelector((state) => state.app.foodData.data);
   const calories = useSelector(state => state.app.breakfastCalories)
@@ -69,7 +80,7 @@ export default function Breakfast() {
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].breakfast) && Object.keys(result[0].breakfast).map(foodItem => {
-           
+
             return (
               <div className=' flex justify-between'>
                 <div>
@@ -101,7 +112,7 @@ export default function Breakfast() {
             )
           })}
           <div className='flex justify-between gap-5 items-center px-4'>
-            <input className='rounded-full w-full border-2 shadow-sm px-4 py-2' type='text' name='foodName' value={foodName} onChange={(e) => setFoodName(e.target.value)} placeholder='Search your food...' />
+            <input autocomplete="off" className='rounded-full w-full border-2 shadow-sm px-4 py-2' type='text' name='foodName' value={foodName} onChange={(e) => handleChange(e)} placeholder='Search your food...' />
             <button onClick={() => {
 
               if (foodName.length != 0) {
@@ -123,6 +134,25 @@ export default function Breakfast() {
               <FaCirclePlus className='text-mypink text-4xl' />
             </button>
           </div>
+          {(searchResults.length === 0 && foodName.length > 0) && <p className='px-4 font-semibold bg-blue-100 py-2 rounded-xl'>No Search Results yet.<br>
+
+          </br><span className='font-normal text-sm'> Try Searching for general foods (Chicken, Panner, Dosa etc.)</span></p>}
+          {searchResults.length > 0 && <div className=' w-full px-2 py-2'>
+            <p className='font-semibold'>
+              Search Results:
+            </p>
+            {searchResults.map(item => {
+              return (
+
+                <div key={item} onClick={() => redirectToNutrientsPage({ foodName: item, mealType: "breakfast" })} className='cursor-pointer flex justify-between items-center p-4 border-2 mb-1 bg-blue-100 border-gray-400 rounded-xl'>{item} <FiArrowUpRight className='text-2xl' /></div>
+
+
+
+              )
+
+            })}
+
+          </div>}
           <div className='flex gap-2 text-sm px-4'>
             <p>Can&#39;t find your meal?</p>
             <a href={`/custommeal?mealtype=breakfast`} className='font-semibold underline underline-offset-2'> Add from Custom Meals </a>

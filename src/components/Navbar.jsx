@@ -8,14 +8,16 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  
   const links = {
     "Home": "/",
     "About": "/about",
+    "My Account": "/account",
     "My Tracker": "/dashboard",
     "Contact": "/contact"
   }
-  function handleLogout(){
-dispatch(logout());
+  function handleLogout() {
+    dispatch(logout());
   }
   const entries = Object.entries(links)
   return (
@@ -40,8 +42,8 @@ dispatch(logout());
             <a className='text-xl font-semibold  ' href={value} >{key}</a>
           )
         })}
-       {isLoggedIn && <p className='text-xl font-semibold cursor-pointer' onClick={handleLogout} >Logout</p>}
-       {!isLoggedIn && <p className='text-xl font-semibold cursor-pointer' onClick={()=>window.location.href = "/register"} >Login</p>}
+        {isLoggedIn && <p className='text-xl font-semibold cursor-pointer' onClick={handleLogout} >Logout</p>}
+        {!isLoggedIn && <p className='text-xl font-semibold cursor-pointer' onClick={() => window.location.href = "/register"} >Login</p>}
       </div>}
     </div>
   )

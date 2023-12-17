@@ -20,6 +20,7 @@ import Login from "./components/Login";
 import { auth } from "./firebase/config";
 import { login, loginExistingUser, logout } from "./features/Auth/authSlice";
 import WeightTracker from "./components/WeightTracker";
+import Account from "./components/Account";
 
 function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -52,6 +53,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/account" element={<Account />} />
             <Route path="/about" element={<About />} />
             <Route path="/assessment" element={<Assessment />} />
             <Route path="/dashboard" element={<Dashboard />} />

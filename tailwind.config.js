@@ -5,17 +5,17 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundColor:{
-        'myprimecolor' : '#84CC16',
-        'fadedgreen' : '#F2FFE8',
-        'mypink' : '#FF2480'
-        
+      backgroundColor: {
+        'myprimecolor': 'rgb(34 197 94)',
+        'fadedgreen': '#F2FFE8',
+        'mypink': '#FF2480'
+        // 84CC16
       },
-      textColor:{
-        'myprimecolor' : '#84CC16',
-        'mypink' : '#FF2480'
+      textColor: {
+        'myprimecolor': '#84CC16',
+        'mypink': '#FF2480'
       },
-      
+
     },
   },
   plugins: [],
