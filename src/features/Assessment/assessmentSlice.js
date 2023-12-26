@@ -12,7 +12,7 @@ const initialState = {
 
 export const getUserAssessment = createAsyncThunk("getUserAssessment", async () => {
     const data = await api.getUserAssessment();
-    console.log("data in slice", data);
+    
     return data;
 })
 //TODO: calculate user calorie intake and etc here
@@ -27,10 +27,11 @@ const assessmentSlice = createSlice({
         [getUserAssessment.fulfilled]: (state, action) => {
 
             if (action.payload) {
-                console.log("action payload after fullfilled", action.payload.parsedRes)
+                
                 state.data = action.payload.parsedRes
             }
             state.isLoading = false;
+            // window.location.href = "/dashboard";
         }
     }
 })

@@ -24,8 +24,8 @@ export default function Register() {
             window.location.href = "/dashboard";
         }
     }, [isLoggedIn])
-    console.log("check log in", isLoggedIn);
-    console.log("error auth", authError)
+    
+    
     async function handleGoogleLogin() {
 
         dispatch(loginWithGoogle())

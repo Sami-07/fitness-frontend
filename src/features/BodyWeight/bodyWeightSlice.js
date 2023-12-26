@@ -9,12 +9,12 @@ export const getTodayBodyWeight = createAsyncThunk("getTodayBodyWeight", async (
 
 
         const res = await api.getTodayBodyWeight();
-        // console.log("resXXXX", res);
+        // 
 
         return res
     }
     catch (err) {
-        console.log(err.message);
+        
     }
 })
 

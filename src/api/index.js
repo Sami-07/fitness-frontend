@@ -10,7 +10,7 @@ async function getUserToken() {
         if (user) {
             // User is logged in
             const idToken = await user.accessToken;
-            console.log("in side function", idToken);
+
             return { idToken };
         }
     })
@@ -31,7 +31,7 @@ export async function register(userName, email) {
         })
 
         const pasredData = await data.json();
-        console.log("res of register", pasredData);
+
         return { result: pasredData };
 
     }
@@ -41,40 +41,68 @@ export async function register(userName, email) {
 
 
 }
-export async function addAssessmentDetails({ age, gender, height, weight, approach, goalWeight, activityLevel }) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            auth.onAuthStateChanged(async (user) => {
-                if (user) {
-                    const idToken = await user.accessToken;
-                    const result = await fetch(url + "/addassessmentdetails", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${idToken}`
-                        }
-                        ,
-                        body: JSON.stringify({ age, gender, height, weight, approach, goalWeight, activityLevel })
-                    },
-                    )
-                    const paredRes = await result.json();
-                    await fetch(url + "/calculatemacrointake", {
-                        method: "GET",
-                        headers: {
-                            Authorization: `Bearer ${idToken}`
-                        }
-                    })
-                    if (result) {
-                        resolve({ result: paredRes.status })
-                    }
-                }
-            })
-        }
-        catch (err) {
-            console.log(err.message);
-        }
-    })
+
+export async function registerGoogleUser(displayName, email) {
+    try {
+
+
+        const data = await fetch(baseUrl + "/registergoogleuser", {
+            method: "POST",
+            headers: {
+
+                "Content-Type": "application/json",
+
+            },
+            body: JSON.stringify({ displayName, email })
+        })
+
+        const pasredData = await data.json();
+
+        return { result: pasredData };
+
+    }
+    catch (err) {
+        console.log(err.message);
+    }
 }
+export async function addAssessmentDetails({ age, gender, height, weight, approach, goalWeight, activityLevel }) {
+    try {
+        const user = auth.currentUser;
+
+        if (!user) {
+            // Handle the case where the user is not authenticated.
+            throw new Error("User not authenticated.");
+        }
+
+        const idToken = await user.getIdToken();
+
+        // Assuming 'url' is defined somewhere in your code
+        const response = await fetch(url + "/addassessmentdetails", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ age, gender, height, weight, approach, goalWeight, activityLevel })
+        });
+
+        const parsedRes = await response.json();
+
+        // Assuming 'url' is defined somewhere in your code
+        const x = await fetch(url + "/calculatemacrointake", {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${idToken}`
+            }
+        });
+
+        return parsedRes.status;
+    } catch (err) {
+        console.error(err.message);
+        throw err; // Re-throw the error to indicate failure
+    }
+}
+
 export async function getUserAssessment() {
     return new Promise(async (resolve, reject) => {
         try {
@@ -126,7 +154,7 @@ export async function calculateIntake() {
 export async function addBodyWeight({ weight }) {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("weight in api", weight);
+
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken
@@ -211,7 +239,30 @@ export async function fetchResults(term) {
     return parsedRes;
 
 }
+export async function getFitnessInfo() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    const idToken = await user.accessToken;
+                    const res = await fetch(url + "/getgooglefitnessinfo",
+                        {
+                            method: "GET",
+                            headers: {
+                                Authorization: `Bearer ${idToken}`
+                            }
+                        })
+                    const parsedRes = await res.json();
 
+                    resolve({ parsedRes });
+                }
+            })
+        }
+        catch (err) {
+
+        }
+    })
+}
 export function getMeals() {
     return new Promise(async (resolve, reject) => {
         try {
@@ -219,6 +270,7 @@ export function getMeals() {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
+                    console.log("id", idToken);
 
                     const result = await fetch(url + "/getmeals", {
                         method: "GET",
@@ -232,7 +284,7 @@ export function getMeals() {
                 }
             });
         } catch (err) {
-            console.log(err.message);
+
             reject(err);
         }
     });
@@ -246,7 +298,7 @@ export async function fetchBreakfastData() {
 }
 
 export async function addBreakfastData(breakfastFoodData) {
-    console.log("hrjhkrgjekf")
+
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -254,7 +306,7 @@ export async function addBreakfastData(breakfastFoodData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    console.log("function id Token", idToken);
+
                     const data = await fetch('http://localhost:5000/dashboard/addbreakfast', {
                         method: "POST",
                         headers: {
@@ -551,4 +603,157 @@ export async function removeMeal(foodItem, mealType) {
 
 
 
+}
+
+
+
+export async function getExercises(muscle) {
+    try {
+        const user = auth.currentUser;
+
+        if (!user) {
+            // Handle the case where the user is not authenticated.
+            throw new Error("User not authenticated.");
+        }
+
+        const idToken = await user.getIdToken();
+
+        // Assuming 'url' is defined somewhere in your code
+        const response = await fetch(url + "/getexercises", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ muscle })
+        });
+
+        const parsedRes = await response.json();
+
+        // Assuming 'url' is defined somewhere in your code
+
+
+        return { parsedRes };
+    } catch (err) {
+        console.error(err.message);
+        throw err; // Re-throw the error to indicate failure
+    }
+}
+export async function addWorkout(data) {
+    try {
+        const user = auth.currentUser;
+
+        if (!user) {
+
+            return { status: false }
+        }
+        const idToken = await user.getIdToken();
+
+        const res = await fetch(url + "/addworkout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${idToken}`
+            },
+            body: JSON.stringify(data)
+        })
+        const parsedRes = await res.json();
+        console.log("parsed api added", parsedRes);
+        return { res: parsedRes }
+    } catch (err) {
+        return { status: false }
+
+    }
+}
+
+export async function getWorkoutDetails() {
+    return new Promise(async (resolve, reject) => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const idToken = await user.getIdToken();
+                const res = await fetch(url + "/getworkoutdetails", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${idToken}`
+                    }
+                })
+                const x = await res.json();
+
+                resolve({ parsedRes: x })
+            }
+        })
+    })
+}
+
+export async function changeWorkoutDay(workoutDay) {
+    const user = auth.currentUser;
+    if (!user) {
+        return { status: false, message: "Unauthorized" }
+    }
+    const idToken = await user.getIdToken();
+    const res = await fetch(url + "/editworkoutday",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${idToken}`
+            },
+            body: JSON.stringify({ workoutDay })
+        })
+    const parsedRes = await res.json();
+    return parsedRes;
+}
+
+export async function editSet(data) {
+    const user = auth.currentUser;
+    if (!user) {
+        return { status: false, error: "Unauthorized" }
+    }
+    const idToken = await user.getIdToken();
+    const res = await fetch(url + "/editset", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedRes = await res.json();
+    
+    return parsedRes;
+}
+export async function deleteSet(data) {
+    const user = auth.currentUser;
+    if (!user) {
+        return { status: false, error: "Unauthorized" }
+    }
+    const idToken = await user.getIdToken();
+    const res = await fetch(url + "/deleteset", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`
+        },
+        body: JSON.stringify(data)
+    })
+    const parsedRes = await res.json();
+
+    return parsedRes;
+}
+export async function fetchWorkoutForADay(selectedDate){
+    const user = auth.currentUser;
+    if(!user){
+        return {status : false, error : "Unauthorized"}
+    }
+    const idToken = await user.getIdToken();
+    const res = await fetch(url + "/fetchworkoutforaday", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json",
+            Authorization  : `Bearer ${idToken}`
+        },
+        body : JSON.stringify({selectedDate})
+    })
+    const parsedRes = await res.json();
+    return parsedRes;
 }

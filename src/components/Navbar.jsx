@@ -8,12 +8,13 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-  
+
   const links = {
     "Home": "/",
     "About": "/about",
     "My Account": "/account",
     "My Tracker": "/dashboard",
+    "Workout History": "/workouthistory",
     "Contact": "/contact"
   }
   function handleLogout() {

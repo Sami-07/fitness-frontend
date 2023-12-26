@@ -44,30 +44,34 @@ export const login = createAsyncThunk("login", async ({ auth, email, password })
         const res = await signInWithEmailAndPassword(auth, email, password);
 
         if (res) {
+          
             return { user: res.user }
         }
     }
     catch (err) {
-        console.log("err", err.message);
+        
     }
 })
 export const loginWithGoogle = createAsyncThunk("loginWithGoogle", async (user) => {
     try {
+      
         const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const user = result.user;
-                return user;
-
-            })
-
-
+        const result = await signInWithPopup(auth, provider);
+        
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+     
+        
+        const user = result.user;
+      
+        if(user){
+            await api.registerGoogleUser(user.displayName, user.email)
+        }
+        return user;
+    } catch (err) {
+        console.error("Error:", err.message);
     }
-    catch (err) {
-        console.log("err", err.message);
-    }
+    
 })
 
 
@@ -78,6 +82,7 @@ export const authSlice = createSlice({
         loginExistingUser: (state, action) => {
             state.user = action.payload
             state.isLoggedIn = true
+            
         }
 
     },
@@ -86,7 +91,7 @@ export const authSlice = createSlice({
 
             if (action.payload.user) {
                 state.isLoggedIn = true
-                console.log("user in auth slice", action.payload)
+                
                 state.user = action.payload.user
                 state.error = null
                 state.email = action.payload.email
@@ -100,7 +105,7 @@ export const authSlice = createSlice({
             }
         },
         [logout.fulfilled]: (state, action) => {
-            console.log("post logout")
+            
             state.user = null
             state.isLoggedIn = false
 
@@ -121,6 +126,7 @@ export const authSlice = createSlice({
         [loginWithGoogle.fulfilled]: (state, action) => {
             state.user = action.payload
             state.isLoggedIn = true
+
 
 
         }

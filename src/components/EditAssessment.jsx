@@ -24,7 +24,7 @@ import { TiTick } from "react-icons/ti";
 // If yes, then render all the filled details, and give an option to update details similar to weight tracking.
 // Dont allow users to update weight later from assessment page.
 
-export default function Assessment() {
+export default function EditAssessment() {
   const dispatch = useDispatch();
   const [assessmentDone, setAssessmentDone] = useState(false);
   useEffect(() => {
@@ -102,100 +102,100 @@ export default function Assessment() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!age) {
-      toast.error('Please enter age.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        toast.error('Please enter age.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
 
-  }
-  else if (!gender) {
-      toast.error('Please enter gender.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-  }
-  else if (!height) {
-      toast.error('Please enter height.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-  }
+    }
+    else if (!gender) {
+        toast.error('Please enter gender.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+    }
+    else if (!height) {
+        toast.error('Please enter height.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+    }
 
-  else if (!weight) {
-      toast.error('Please enter weight.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-  }
-  else if (!approach) {
-      toast.error('Please enter your approach.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-  }
-  else if (!goalWeight) {
-      toast.error('Please enter your goal weight.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-  }
-  else if (!activityLevel) {
-      toast.error('Please enter your activity level.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-  }
+    else if (!weight) {
+        toast.error('Please enter weight.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+    }
+    else if (!approach) {
+        toast.error('Please enter your approach.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+    }
+    else if (!goalWeight) {
+        toast.error('Please enter your goal weight.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+    }
+    else if (!activityLevel) {
+        toast.error('Please enter your activity level.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+    }
     else {
+        
       const res = await addAssessmentDetails({ age, gender, height, weight, approach, goalWeight, activityLevel })
       
-      if (res) {
-
+      if (res.status) {
         setTimeout(() => {
           window.location.href = "/dashboard"
         }, 2000)
-        toast.success('Assessment recorded successfully!', {
+        toast.success('Assessment updated successfully!', {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: true,
@@ -205,8 +205,6 @@ export default function Assessment() {
           progress: undefined,
           theme: "dark",
         });
-
-
       }
       else {
         toast.error('Please try again.', {
@@ -227,73 +225,9 @@ export default function Assessment() {
   return (
     <div>
       {isLoading && <p className='text-4xl text-center mt-20'>LOADING...</p>}
-      {(assessmentDone && !isLoading) &&
-        <div className='  mt-20 text-center'>
-          <div className='flex justify-center items-center mx-auto'>
-            <div className='flex flex-col items-center justify-center text-center'>
-              <TiTick className='text-5xl bg-myprimecolor rounded-full text-white mb-4' />
-              <p className='text-xl'>
-                You have already completed the Assessment.
-              </p>
-            </div>
+     
 
-          </div>
-
-          {assessmentData && Object.keys(assessmentData).map(item => {
-            let unit = ""
-            let label = item;
-           
-         
-           if(item == "weight"){
-            label = "Current Weight";
-            
-            unit = " Kg";
-           }
-           else if(item == "initialWeight"){
-            label = "Initial Weight";  
-            unit = " Kg";
-           }
-            else if (item === "height") {
-              unit = "Cm";
-            }
-
-            else if (item == "calorieIntake") {
-              unit = "Cal"
-            }
-            else if (item === "proteinIntake") {
-              unit = "g"
-            }
-            else {
-              unit = "";
-            }
-            if (item === "goalWeight") {
-              label = "Goal Weight";
-              unit = " Kg";
-            }
-            else if (item === "activityLevel") {
-              label = "Activity Level";
-            }
-            else if (item === "calorieIntake") {
-              label = "Calorie Intake";
-            }
-            else if (item === "proteinIntake") {
-              label = "Protein Intake";
-            }
-            return (
-              <div className='grid grid-cols-2 text-xl mt-4'>
-                <p className='capitalize  font-semibold'>{label}</p>
-                <p className=''>{assessmentData[item]} {unit}</p>
-              </div>
-            )
-          })}
-          <div className='text-center mb-5' onClick={() => window.location.href = "/editassessment"}>
-            <button type='submit'>
-              <Button textColor="white" text={"Edit Assessment"} width={"60"} icon={<MdKeyboardDoubleArrowRight className='text-3xl' />} />
-            </button>
-          </div>
-        </div>}
-
-      {(!assessmentDone && !isLoading) && <form onSubmit={handleSubmit}>
+      { <form onSubmit={handleSubmit}>
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -387,20 +321,7 @@ export default function Assessment() {
             <img src={musclegain} className='w-12' alt='icon' />
             <p className='ml-10'>Muscle Gain</p>
           </div>
-          {/* {approachOptions.map(eachApproach => {
-    return (
-      <div
-        key={eachApproach.label}
-        onClick={() => setApproach(eachApproach)}
-        className={`flex items-center gap-2 px-2 border-2 py-1 mx-24 rounded-xl cursor-pointer
-          ${approach === eachApproach ? 'bg-green-500 text-white' : 'bg-white'}
-        `}
-      >
-        <img src={eachApproach.logo} className='w-12' alt='icon' />
-        <p className='ml-10'>{eachApproach.label}</p>
-      </div>
-    );
-  })} */}
+      
         </div>
 
 

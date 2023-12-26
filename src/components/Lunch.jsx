@@ -15,12 +15,12 @@ export default function Lunch() {
     setFoodName(e.target.value)
 
     const res = await fetchResults(e.target.value);
-    console.log("res in func", res.data);
+    
     const nameArr = (res.data).map(item => {
       return item.name
     })
     setSearchResults(nameArr);
-    console.log("res arr", nameArr);
+    
   }
   const [totalCalories, setTotalCalories] = useState(0);
 
@@ -109,7 +109,16 @@ export default function Lunch() {
             <button onClick={() => {
 
               if (foodName.length != 0) {
-                redirectToNutrientsPage({ foodName, mealType: "lunch" })
+                toast.error('Please select a food from the below list.', {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: true,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
               }
               else {
                 toast.error('Please Select a food name.', {

@@ -5,13 +5,15 @@ import customMealReducer from "../features/CustomMeal/customMealSlice";
 import authReducer from "../features/Auth/authSlice";
 import assessmentReducer from "../features/Assessment/assessmentSlice";
 import bodyWeightReducer from "../features/BodyWeight/bodyWeightSlice";
+import workoutReducer from "../features/Workout/workoutSlice";
 export const store = configureStore({
     reducer: {
         app: dashboardReducer,
         customMeals: customMealReducer,
         auth: authReducer,
         assessment: assessmentReducer,
-        bodyWeight: bodyWeightReducer
+        bodyWeight: bodyWeightReducer,
+        workout : workoutReducer
     }
 });
 

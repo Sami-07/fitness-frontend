@@ -21,7 +21,7 @@ export default function Login() {
 
   async function loginWithGoogle() {
     // const authObject = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    // console.log("Token", authObject.credential.idToken);
+    // 
 
 
   }
@@ -38,7 +38,7 @@ export default function Login() {
       }
     }
     catch (err) {
-      console.log("err", err.message);
+      
     }
 
   }

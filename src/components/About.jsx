@@ -5,7 +5,7 @@ import { features } from '../Constants'
 import { useSelector } from 'react-redux'
 export default function About() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log("isLogged In about", isLoggedIn);
+  
   return (
     <div>
       <div>

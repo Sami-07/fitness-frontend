@@ -14,7 +14,9 @@ const initialState = {
     eveningSnacksCalories: 0,
     dinnerCalories: 0,
     totalCalories: 0,
-    totalPercentageCal: 0
+    totalPercentageCal: 0,
+    isLoading: true,
+    totalProtein: 0
 
 }
 
@@ -92,19 +94,23 @@ export const dashboardSlice = createSlice({
 
 
             let sum = 0;
+            let pSum = 0;
             if (action.payload.data[0]) {
                 const obj = action.payload.data[0]
                 if (obj.breakfast) {
                     Object.keys(obj.breakfast).map(foodName => {
                         sum += obj["breakfast"][foodName]["calories"]
+                        pSum += obj["breakfast"][foodName]["protein"]
                     })
 
                     state.breakfastCalories = sum;
+
                 }
                 sum = 0
                 if (obj.morningSnacks) {
                     Object.keys(obj.morningSnacks).map(foodName => {
                         sum += obj["morningSnacks"][foodName]["calories"]
+                        pSum += obj["morningSnacks"][foodName]["protein"]
                     })
                     state.morningSnacksCalories = sum;
                 }
@@ -112,6 +118,7 @@ export const dashboardSlice = createSlice({
                 if (obj.lunch) {
                     Object.keys(obj.lunch).map(foodName => {
                         sum += obj["lunch"][foodName]["calories"]
+                        pSum += obj["lunch"][foodName]["protein"]
                     })
                     state.lunchCalories = sum;
                 }
@@ -119,6 +126,7 @@ export const dashboardSlice = createSlice({
                 if (obj.eveningSnacks) {
                     Object.keys(obj.eveningSnacks).map(foodName => {
                         sum += obj["eveningSnacks"][foodName]["calories"]
+                        pSum += obj["eveningSnacks"][foodName]["protein"]
                     })
                     state.eveningSnacksCalories = sum;
                 }
@@ -126,14 +134,17 @@ export const dashboardSlice = createSlice({
                 if (obj.dinner) {
                     Object.keys(obj.dinner).map(foodName => {
                         sum += obj["dinner"][foodName]["calories"]
+                        pSum += obj["dinner"][foodName]["protein"]
                     })
                     state.dinnerCalories = sum;
+
 
                 }
                 state.totalCalories = state.breakfastCalories + state.morningSnacksCalories + state.lunchCalories + state.eveningSnacksCalories + state.dinnerCalories
                 state.totalPercentageCal = (state.totalCalories / 2400) * 100;
 
-
+                state.totalProtein = pSum;
+           
             }
 
         }

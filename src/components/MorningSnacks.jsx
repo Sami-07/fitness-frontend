@@ -17,12 +17,12 @@ export default function MorningSnacks() {
     setFoodName(e.target.value)
 
     const res = await fetchResults(e.target.value);
-    console.log("res in func", res.data);
+    
     const nameArr = (res.data).map(item => {
       return item.name
     })
     setSearchResults(nameArr);
-    console.log("res arr", nameArr);
+    
   }
   const [totalCalories, setTotalCalories] = useState(0);
   const result = useSelector((state) => state.app.foodData.data);
@@ -108,7 +108,16 @@ export default function MorningSnacks() {
             <input autocomplete="off" className='rounded-full w-full border-2 shadow-sm px-4 py-2' type='text' name='foodName' value={foodName} onChange={(e) => handleChange(e)} placeholder='Search your food...' />
             <button onClick={() => {
               if (foodName.length != 0) {
-                redirectToNutrientsPage({ foodName, mealType: "morningsnacks" })
+                toast.error('Please select a food from the below list.', {
+                  position: "top-center",
+                  autoClose: 5000,
+                  hideProgressBar: true,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "dark",
+                });
               }
               else {
                 toast.error('Please Select a food name.', {

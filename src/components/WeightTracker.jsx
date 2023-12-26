@@ -6,6 +6,7 @@ import Button from '../ReusableComponents/Button';
 import { addBodyWeight, updateBodyWeight } from '../api';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
+import scale from "../images/scale.png";
 import 'react-toastify/dist/ReactToastify.css';
 import { getTodayBodyWeight } from '../features/BodyWeight/bodyWeightSlice';
 export default function WeightTracker() {
@@ -17,9 +18,9 @@ export default function WeightTracker() {
 
     const weightTracking = useSelector(state => state.bodyWeight)
     useEffect(() => {
-        console.log("body weight slice", weightTracking);
+        
 
-        console.log("state data", weightTracking.todayWeight);
+        
     }, [weightTracking])
     const [weightData, setWeightData] = useState("");
     const [weight, setWeight] = useState(null);
@@ -78,7 +79,7 @@ export default function WeightTracker() {
     }
     async function updateWeight(e) {
         e.preventDefault();
-        console.log("wegiht valie", weight)
+        
         if (weight) {
             const res = await updateBodyWeight({ weight });
             if (res.parsedRes.status) {
@@ -139,6 +140,7 @@ export default function WeightTracker() {
                 pauseOnHover
                 theme="dark"
             />
+            <img src={scale} className='w-1/4 mx-auto mb-10' alt='' />
             {weightTracking.trackedWeightToday && <div>
 
                 <div className=" text-2xl text-center flex justify-center items-center gap-3 my-2">

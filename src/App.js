@@ -21,6 +21,9 @@ import { auth } from "./firebase/config";
 import { login, loginExistingUser, logout } from "./features/Auth/authSlice";
 import WeightTracker from "./components/WeightTracker";
 import Account from "./components/Account";
+import EditAssessment from "./components/EditAssessment";
+
+import WorkoutHistory from "./components/WorkoutHistory";
 
 function App() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -41,7 +44,7 @@ function App() {
     return () => unsubscribe();
   }, [dispatch]);
 
-  console.log("check log in", isLoggedIn);
+  
   return (
     <div className="">
       <div >
@@ -56,12 +59,14 @@ function App() {
             <Route path="/account" element={<Account />} />
             <Route path="/about" element={<About />} />
             <Route path="/assessment" element={<Assessment />} />
+            <Route path="/editassessment" element={<EditAssessment />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/foodtracker" element={<FoodTracker />} />
             <Route path="/nutrientsinfo" element={<MacroNutrientsContent />} />
             <Route path="/custommeal" element={<CustomMeal />} />
             <Route path="/addworkout" element={<AddWorkout />} />
             <Route path="/trackworkout" element={<TrackWorkout />} />
+            <Route path="/workouthistory" element={<WorkoutHistory />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/addcustommeal" element={<AddCustomMeal />} />
             <Route path="/weighttracker" element={<WeightTracker />} />

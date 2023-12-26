@@ -12,7 +12,7 @@ export const fetchCustomMeals = createAsyncThunk("fetchCustomMeals", async () =>
       
         return result;
     } catch (error) {
-        console.log(error.message);
+        
     }
 })
 
@@ -26,7 +26,7 @@ export const customMealSlice = createSlice({
                 const result = await api.addCustomMeal(action.payload);
            
             } catch (error) {
-                console.log(error.message);
+                
             }
         },
 
