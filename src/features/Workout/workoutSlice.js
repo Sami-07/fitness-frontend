@@ -6,7 +6,8 @@ const initialState = {
     todayWorkouts: null,
     workoutDayInState: null,
     msg: null,
-    workoutDataForADay : null
+    workoutDataForADay: null,
+    allExercises: null
 }
 export const getExercises = createAsyncThunk("getExercises", async (muscle) => {
     const res = await api.getExercises(muscle)
@@ -41,6 +42,12 @@ export const deleteSet = createAsyncThunk("deleteSet", async (data) => {
 export const fetchWorkoutForADay = createAsyncThunk("fetchWorkoutForADay", async (selectedDate) => {
     const res = await api.fetchWorkoutForADay(selectedDate);
     console.log("data of a date workout", res);
+    return res;
+
+})
+export const getAllExercises = createAsyncThunk("getAllExercises", async () => {
+    const res = await api.getAllExercises();
+    // console.log("data of a date workout", res);
     return res;
 
 })
@@ -83,10 +90,13 @@ const workoutSlice = createSlice({
         [deleteSet.fulfilled]: (state, action) => {
             state.msg = action.payload.message;
         },
-        [fetchWorkoutForADay.fulfilled] : (state,action)=>{
-        
-                state.workoutDataForADay = action.payload;
-           
+        [fetchWorkoutForADay.fulfilled]: (state, action) => {
+
+            state.workoutDataForADay = action.payload;
+
+        },
+        [getAllExercises.fulfilled]: (state, action) => {
+            state.allExercises = action.payload;
         }
 
     }

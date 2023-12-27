@@ -719,7 +719,7 @@ export async function editSet(data) {
         body: JSON.stringify(data)
     })
     const parsedRes = await res.json();
-    
+
     return parsedRes;
 }
 export async function deleteSet(data) {
@@ -740,20 +740,40 @@ export async function deleteSet(data) {
 
     return parsedRes;
 }
-export async function fetchWorkoutForADay(selectedDate){
+export async function fetchWorkoutForADay(selectedDate) {
     const user = auth.currentUser;
-    if(!user){
-        return {status : false, error : "Unauthorized"}
+    if (!user) {
+        return { status: false, error: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
     const res = await fetch(url + "/fetchworkoutforaday", {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json",
-            Authorization  : `Bearer ${idToken}`
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`
         },
-        body : JSON.stringify({selectedDate})
+        body: JSON.stringify({ selectedDate })
     })
     const parsedRes = await res.json();
+    return parsedRes;
+}
+export async function getAllExercises() {
+    console.log("gelloooo")
+    const user = auth.currentUser;
+    if (!user) {
+        return { status: false, error: "Unauthorized" }
+    }
+    const idToken = await user.getIdToken();
+    const res = await fetch(url + "/getallexercises", {
+        method: "GET",
+        headers: {
+
+            Authorization: `Bearer ${idToken}`
+        }
+
+    })
+
+    const parsedRes = await res.json();
+    console.log("api ", parsedRes)
     return parsedRes;
 }

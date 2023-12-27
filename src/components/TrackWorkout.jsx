@@ -250,7 +250,7 @@ export default function TrackWorkout() {
       </form>}
       {!editWorkout && <form onSubmit={handleSubmit} className='mx-20 mt-10 flex flex-col gap-5'>
 
-        {(workouts && workouts.workoutDayInState) ? <div className='flex justify-center items-center gap-4'> <h1 className='underline underline-offset-4 decoration-pink-400 decoration-2 text-center text-xl font-semibold uppercase'>{workouts.workoutDayInState} Day</h1>
+        {(workouts && workouts.workoutDayInState) ? <div className='flex justify-center items-center gap-4'> <h1 className='underline underline-offset-4 decoration-[#4942E4] decoration-2 text-center text-xl font-semibold uppercase'>{workouts.workoutDayInState} Day</h1>
           <div onClick={() => setEditWorkout(!editWorkout)} className='cursor-pointer flex border-gray-300 border-2 rounded-lg px-2 justify-center items-center'>
 
             <MdEditNote className='text-mypink text-xl' />
@@ -337,7 +337,7 @@ export default function TrackWorkout() {
               return (
                 <div className={`grid grid-cols-2 my-2 gap-4 py-3 px-5 ${index != noOfWorkouts - 1 ? `border-b-2` : ``}`}>
                   <div>
-                    <p className='font-semibold text-lg underline underline-offset-4 decoration-pink-400 decoration-2'>{each}</p>
+                    <p className='font-semibold text-lg underline underline-offset-4 decoration-[#4942E4] decoration-2'>{each}</p>
                     <p>Total Sets: {todayWorkout[each].length} </p>
                   </div>
                   <div className='flex flex-col  '>
