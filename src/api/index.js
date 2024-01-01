@@ -1,9 +1,9 @@
 import { auth } from "../firebase/config";
 
-const url = "http://localhost:5000/dashboard"
-const baseUrl = "http://localhost:5000"
-// const url = "https://fitness-webapp-backend.vercel.app/dashboard"
-// const baseUrl = "https://fitness-webapp-backend.vercel.app"
+// const url = "http://localhost:5000/dashboard"
+// const baseUrl = "http://localhost:5000"
+const url = "https://fitness-webapp-backend.vercel.app/dashboard"
+const baseUrl = "https://fitness-webapp-backend.vercel.app"
 
 
 
@@ -133,7 +133,7 @@ export async function getUserAssessment() {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken;
-                    const result = await fetch("/dashboard/getuserassessment", {
+                    const result = await fetch(baseUrl + "/dashboard/getuserassessment", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${idToken}`
