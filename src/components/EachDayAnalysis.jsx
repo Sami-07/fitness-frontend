@@ -5,7 +5,7 @@ export default function EachDayAnalysis({ exerciseName, data }) {
     const [allWeights, setAllWeights] = useState([]);
     const [allReps, setAllReps] = useState([]);
     useEffect(() => {
-        console.log("props data", data, exerciseName);
+        
         let weights = []
         let reps = []
         data.map(each => {
@@ -14,8 +14,8 @@ export default function EachDayAnalysis({ exerciseName, data }) {
         })
         setAllWeights(weights);
         setAllReps(reps);
-        console.log(weights);
-        console.log(reps);
+        
+        
     }, [data])
     return (
         <div className='mt-10'>

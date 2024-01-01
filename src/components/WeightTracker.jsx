@@ -140,7 +140,7 @@ export default function WeightTracker() {
                 pauseOnHover
                 theme="dark"
             />
-            <img src={scale} className='w-1/4 mx-auto mb-10' alt='' />
+            <img src={scale} className='w-52 mx-auto mb-10' alt='' />
             {weightTracking.trackedWeightToday && <div>
 
                 <div className=" text-2xl text-center flex justify-center items-center gap-3 my-2">
@@ -174,7 +174,7 @@ export default function WeightTracker() {
 
                         <form onSubmit={updateWeight}>
 
-                            <input type='text' name='weight' value={weight} onChange={e => setWeight(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-3xl shadow-lg border-2 px-4' placeholder='Current Weight (in kg)' />
+                            <input type='text' name='weight' value={weight} onChange={e => setWeight(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-xl shadow-lg border-2 px-4 md:w-1/2 ' placeholder='Current Weight (in kg)' />
                             <div className='text-center mb-5'>
                                 <button type='submit'>
                                     <Button textColor="white" text={"Update"} width={"52"} icon={<MdKeyboardDoubleArrowRight className='text-3xl' />} />
@@ -206,7 +206,7 @@ export default function WeightTracker() {
                 </div>
                 <form onSubmit={handleSubmit}>
 
-                    <input type='text' name='weight' value={weight} onChange={e => setWeight(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-3xl shadow-lg border-2 px-4' placeholder='Current Weight (in kg)' />
+                    <input type='text' name='weight' value={weight} onChange={e => setWeight(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-xl shadow-lg border-2 px-4 md:w-1/2' placeholder='Current Weight (in kg)' />
                     <div className='text-center mb-5'>
                         <button type='submit'>
                             <Button textColor="white" text={"Add to Track"} width={"52"} icon={<MdKeyboardDoubleArrowRight className='text-3xl' />} />

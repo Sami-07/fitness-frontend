@@ -5,16 +5,16 @@ import { features } from '../Constants'
 import { useSelector } from 'react-redux'
 export default function About() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  
+
   return (
-    <div>
+    <div className='md:mx-20'>
       <div>
 
-        <div className='flex justify-center mt-16 gap-3'>
+        <div className='flex justify-center mt-16 gap-3 '>
           <img className=' h-14 w-14  rounded-lg' src={FFlogo} alt='logo' />
           <h1 className='text-center text-3xl'> Fitness Freak<span className='text-mypink text-5xl ml-1 font-semibold'>.</span></h1>
         </div>
-        <p className='text-center px-5 mt-5'>{about} </p>
+        <p className='text-center px-5 mt-5 mx-36'>{about} </p>
       </div>
       <div>
         <h2 className='text-center mt-4 text-3xl'>Features<span className='text-mypink text-5xl ml-1 font-semibold'>.</span></h2>
@@ -22,7 +22,7 @@ export default function About() {
 
           {features.map(feature => {
             return (
-              <div className='shadow-xl border-2 flex flex-col justify-center items-center gap-4 p-4 w-1/2 rounded-2xl' key={feature.featureTitle}>
+              <div onClick={()=>window.location.href = feature.link} className='shadow-xl border-2 flex flex-col justify-center items-center gap-4 p-4 w-1/2 rounded-2xl hover:scale-110 transition-all gradientbg2 text-white' key={feature.featureTitle}>
                 <h3 className='text-center font-semibold'>{feature.featureTitle}</h3>
                 <img className='w-24 h-24' src={feature.img} alt='feature img' />
               </div>

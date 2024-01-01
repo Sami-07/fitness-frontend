@@ -6,8 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FiLogIn } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from '../firebase/config';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginWithGoogle } from '../features/Auth/authSlice';
@@ -24,8 +23,8 @@ export default function Register() {
             window.location.href = "/dashboard";
         }
     }, [isLoggedIn])
-    
-    
+
+
     async function handleGoogleLogin() {
 
         dispatch(loginWithGoogle())
@@ -80,7 +79,7 @@ export default function Register() {
 
     }
     return (
-        <div>
+        <div className='mt-24'>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
@@ -105,36 +104,37 @@ export default function Register() {
             })}
             <img className=' h-14 w-14 mx-auto mt-20 -mb-5 rounded-lg' src={FFlogo} alt='logo' />
             <Heading title={"Create an Account"} />
-            <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-5 border-2 rounded-xl mx-5 py-10 gradientbg md:w-1/2 md:mx-auto'>
 
                 <label htmlFor='username' className='flex flex-col items-center'>
-                    <p className='text-lg'>
+                    <p className='text-lg text-white'>
                         Your Name
                     </p>
-                    <input type='text' name='username' value={userName} onChange={e => setUserName(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-3xl shadow-xl border-2 px-4' placeholder='Enter your name' />
+                    <input type='text' name='username' value={userName} onChange={e => setUserName(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-xl shadow-xl border-2 px-4 md:w-1/2' placeholder='Enter your name' />
                 </label>
                 <label htmlFor='email' className='flex flex-col items-center'>
-                    <p className='text-lg'>
+                    <p className='text-lg text-white'>
                         Email
                     </p>
-                    <input type='text' name='email' value={email} onChange={e => setEmail(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-3xl shadow-xl border-2 px-4' placeholder='example@gmail.com' />
+                    <input type='text' name='email' value={email} onChange={e => setEmail(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-xl shadow-xl border-2 px-4 md:w-1/2' placeholder='example@gmail.com' />
                 </label>
                 <label htmlFor='password' className='flex flex-col items-center'>
-                    <p className='text-lg'>
+                    <p className='text-lg text-white'>
                         Password
                     </p>
-                    <input type='password' name='password' value={password} onChange={e => setPassword(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-3xl shadow-xl border-2 px-4' placeholder='******' />
+                    <input type='password' name='password' value={password} onChange={e => setPassword(e.target.value)} className='mx-10 w-[80vw] h-16 rounded-xl shadow-xl border-2 px-4 md:w-1/2' placeholder='******' />
                 </label>
                 <div className='text-center'>
                     <button type='submit'>
                         <Button textColor="white" fontSize={""} text={"Sign up"} width={"52"} icon={<FiLogIn className='text-3xl' />} />
                     </button>
                 </div>
+                <p className='px-4 text-gray-100'>Already have an account?<a href='/login' className=' font-semibold underline underline-offset-4'> Login</a></p>
             </form>
-            <p className='text-center my-10'>OR</p>
+            <p className='text-center my-4'>OR</p>
 
             <div onClick={() => handleGoogleLogin()}>
-                <button className='flex justify-center items-center mx-auto gap-5 text-xl border-2 py-3 px-10 rounded-3xl shadow-lg'><FcGoogle className='text-4xl' />
+                <button className='flex justify-center items-center mx-auto gap-5 text-xl border-2 py-3 px-10 rounded-xl shadow-lg'><FcGoogle className='text-4xl' />
                     Sign in with Google</button>
 
             </div>

@@ -20,6 +20,7 @@ import moderategain from "../images/moderategain.png";
 import musclegain from "../images/musclegain.png";
 import { getUserAssessment } from '../features/Assessment/assessmentSlice';
 import { TiTick } from "react-icons/ti";
+import NotLoggedIn from '../ReusableComponents/NotLoggedIn';
 // TODO: check if the assessment is given by the user in useEffect.
 // If yes, then render all the filled details, and give an option to update details similar to weight tracking.
 // Dont allow users to update weight later from assessment page.
@@ -32,6 +33,7 @@ export default function Assessment() {
   }, [])
   const assessmentData = useSelector(state => state.assessment.data)
   const isLoading = useSelector(state => state.assessment.isLoading)
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   useEffect(() => {
     
     if (assessmentData) {
@@ -42,7 +44,9 @@ export default function Assessment() {
     
   }, [assessmentData])
 
-
+  useEffect(() => {
+    
+}, [])
 
   const [ageOptions, setAgeOptions] = useState([]);
   const [weightOptions, setWeightOptions] = useState([]);
@@ -188,6 +192,7 @@ export default function Assessment() {
         });
   }
     else {
+      
       const res = await addAssessmentDetails({ age, gender, height, weight, approach, goalWeight, activityLevel })
       
       if (res) {
@@ -225,7 +230,7 @@ export default function Assessment() {
   }
 
   return (
-    <div>
+    <div className='md:mx-96'>
       {isLoading && <p className='text-4xl text-center mt-20'>LOADING...</p>}
       {(assessmentDone && !isLoading) &&
         <div className='  mt-20 text-center'>
@@ -292,6 +297,7 @@ export default function Assessment() {
             </button>
           </div>
         </div>}
+{!isLoggedIn ? <NotLoggedIn /> :<div>
 
       {(!assessmentDone && !isLoading) && <form onSubmit={handleSubmit}>
         <ToastContainer
@@ -306,7 +312,7 @@ export default function Assessment() {
           pauseOnHover
           theme="dark"
         />
-        <Heading title="Assessment" logo={<CiMemoPad />} desc={"Please answer the next 4 questions to get started using this App."} />
+        <Heading title="Assessment" logo={<CiMemoPad />} desc={"Please answer the following questions to get started."} />
         <div className='text-center w-[50vw] mx-auto'>
           <p className='text-lg font-semibold'>Select your Age</p>
           <Select
@@ -431,6 +437,7 @@ export default function Assessment() {
           </button>
         </div>
       </form>}
+</div>}
     </div>
   )
 } 

@@ -270,7 +270,7 @@ export function getMeals() {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    console.log("id", idToken);
+                    
 
                     const result = await fetch(url + "/getmeals", {
                         method: "GET",
@@ -442,6 +442,52 @@ export async function addDinner(dinnerData) {
         }
 
     })
+}
+export async function addWater(qty) {
+    const user = auth.currentUser;
+    if (!user) {
+        return { status: false, message: "Unauthorized" }
+    }
+    const idToken = await user.getIdToken();
+    const res = await fetch(url + "/addwater", {
+        method: "POST",
+        headers: {
+
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`
+        },
+        body: JSON.stringify({ qty })
+    })
+    const parsedRes = await res.json();
+    return parsedRes;
+}
+
+export async function fetchWaterIntake() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    const idToken = await user.getIdToken();
+                    const res = await fetch(url + "/fetchwaterintake", {
+                        method: "GET",
+                        headers: {
+
+
+                            Authorization: `Bearer ${idToken}`
+                        }
+                    })
+
+                    const parsedRes = await res.json();
+                    
+                    resolve({ parsedRes });
+                }
+            })
+        }
+        catch (err) {
+            console.log(err.message)
+        }
+    })
+
 }
 export async function getFoodNutrients(foodName) {
     return new Promise(async (resolve, reject) => {
@@ -658,7 +704,7 @@ export async function addWorkout(data) {
             body: JSON.stringify(data)
         })
         const parsedRes = await res.json();
-        console.log("parsed api added", parsedRes);
+        
         return { res: parsedRes }
     } catch (err) {
         return { status: false }
@@ -758,7 +804,7 @@ export async function fetchWorkoutForADay(selectedDate) {
     return parsedRes;
 }
 export async function getAllExercises() {
-    console.log("gelloooo")
+    
     const user = auth.currentUser;
     if (!user) {
         return { status: false, error: "Unauthorized" }
@@ -774,6 +820,102 @@ export async function getAllExercises() {
     })
 
     const parsedRes = await res.json();
-    console.log("api ", parsedRes)
+    
     return parsedRes;
 }
+
+
+// export async function getGoogleFitSteps() {
+//     const user = auth.currentUser;
+//     if (!user) {
+//         return { status: false, error: "Unauthorized" }
+//     }
+//     const accessToken = await user.getIdToken();
+//     try {
+//         // Specify the start and end times for the data you want to fetch
+//         const startTimeMillis = new Date('2023-01-01T00:00:00Z').getTime();
+//         const endTimeMillis = new Date().getTime();
+
+//         const response = await fetch(
+//             `https://www.googleapis.com/fitness/v1/users/me/dataSources/DERIVED:com.google.step_count.delta:com.google.android.gms:estimated_steps/datasets/${startTimeMillis}-${endTimeMillis}`,
+//             {
+//                 method: 'GET',
+//                 headers: {
+//                     Authorization: `Bearer ${accessToken}`,
+//                 },
+//             }
+//         );
+
+//         if (!response.ok) {
+//             throw new Error(`Failed to fetch steps. Status: ${response.status}`);
+//         }
+
+//         const data = await response.json();
+//         
+//         // Extract the number of steps from the response
+//         const steps = data.point[0].value[0].intVal;
+//         return steps;
+//     } catch (error) {
+//         console.error('Error fetching steps from Google Fit API:', error.message);
+//         throw error;
+//     }
+// };
+
+
+// export async function getGoogleFitSteps(){
+
+//     const user = auth.currentUser;
+//     if(!user){
+//         return { status: false, error: "Unauthorized" }
+//     }
+
+//     const idToken = await user.getIdToken();
+//     const res = await fetch(url + "/getgooglesteps", {
+//         method: "GET",
+//         headers: {
+
+//             Authorization: `Bearer ${idToken}`
+//         }
+
+//     })
+// 
+//     const parsedRes = await res.json();
+//     
+//     return parsedRes;
+// }
+
+
+export async function getGoogleFitSteps() {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    // User is logged in
+                    const idToken = await user.accessToken;
+                    const res = await fetch(url + "/getgooglesteps", {
+                        method: "GET",
+                        headers: {
+
+                            Authorization: `Bearer ${idToken}`
+                        }
+
+                    })
+                    const parsedRes = await res.json();
+                    
+                    if (res) {
+                        resolve({ parsedRes })
+                    }
+
+                }
+            })
+        }
+        catch (err) {
+            console.log(err);
+        }
+
+    })
+
+}
+
+

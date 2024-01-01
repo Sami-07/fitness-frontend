@@ -16,7 +16,9 @@ const initialState = {
     totalCalories: 0,
     totalPercentageCal: 0,
     isLoading: true,
-    totalProtein: 0
+    totalProtein: 0,
+    waterQty: 0,
+    addStatus: false
 
 }
 
@@ -30,6 +32,27 @@ export const fetchMeals = createAsyncThunk("fetchMeals", async () => {
         console.log(err.message);
     }
 })
+export const addWater = createAsyncThunk("addWater", async (qty) => {
+    try {
+        const result = await api.addWater(qty);
+        return result;
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+)
+export const fetchWaterIntake = createAsyncThunk("fetchWaterIntake", async () => {
+    try {
+        const result = await api.fetchWaterIntake();
+   
+        return result;
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+)
 export const dashboardSlice = createSlice({
     name: "foodItems",
     initialState,
@@ -144,9 +167,21 @@ export const dashboardSlice = createSlice({
                 state.totalPercentageCal = (state.totalCalories / 2400) * 100;
 
                 state.totalProtein = pSum;
-           
+
             }
 
+        },
+        [addWater.fulfilled]: (state, action) => {
+            if (action.payload.status) {
+
+                state.addStatus = true
+            }
+        },
+        [fetchWaterIntake.fulfilled]: (state, action) => {
+            if (action.payload) {
+                let formattedQty = (action.payload.parsedRes.waterIntake) / 1000
+                state.waterQty = formattedQty
+            }
         }
     }
 })

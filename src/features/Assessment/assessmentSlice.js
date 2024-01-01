@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import * as api from "../../api"
 const initialState = {
-    isLoading: true,
+    isLoading: false,
     age: null,
     gender: null,
     weight: null,
@@ -12,7 +12,7 @@ const initialState = {
 
 export const getUserAssessment = createAsyncThunk("getUserAssessment", async () => {
     const data = await api.getUserAssessment();
-    
+
     return data;
 })
 //TODO: calculate user calorie intake and etc here
@@ -24,13 +24,19 @@ const assessmentSlice = createSlice({
 
     }
     , extraReducers: {
+        [getUserAssessment.pending]: (state, action) => {
+            // state.isLoading = true
+        },
+
         [getUserAssessment.fulfilled]: (state, action) => {
 
             if (action.payload) {
-                
+
                 state.data = action.payload.parsedRes
             }
-            state.isLoading = false;
+
+            // state.isLoading = false;
+
             // window.location.href = "/dashboard";
         }
     }

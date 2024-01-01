@@ -6,18 +6,22 @@ export const about = "Welcome to Fitness Freak, your all-in-one destination for 
 export const features = [
     {
         featureTitle: "Track your Workouts",
-        img: feature1img
+        img: feature1img,
+        link: "/trackworkout"
     },
     {
         featureTitle: "Track your Meals",
-        img: feature2img
+        img: feature2img,
+        link: "/dashboard"
     },
     {
         featureTitle: "Analyze your Workouts",
-        img: feature3img
+        img: feature3img,
+        link: "workouthistory"
     },
     {
         featureTitle: "Macro Nutrients Content",
-        img: feature4img
+        img: feature4img,
+        link: "/foodtracker"
     }
 ]

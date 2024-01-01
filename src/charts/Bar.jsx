@@ -3,7 +3,7 @@ import Chart from "react-apexcharts";
 
 export default function Bar({ allWeights, allReps }) {
     useEffect(() => {
-        console.log("graph", allWeights, allReps);
+        
         setChartData((prevData) => ({
             ...prevData,
             options: {

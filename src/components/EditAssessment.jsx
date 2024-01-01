@@ -240,7 +240,7 @@ export default function EditAssessment() {
           pauseOnHover
           theme="dark"
         />
-        <Heading title="Assessment" logo={<CiMemoPad />} desc={"Please answer the next 4 questions to get started using this App."} />
+        <Heading title="Assessment" logo={<CiMemoPad />} desc={"Update your assessment details."} />
         <div className='text-center w-[50vw] mx-auto'>
           <p className='text-lg font-semibold'>Select your Age</p>
           <Select

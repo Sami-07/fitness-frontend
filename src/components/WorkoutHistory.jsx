@@ -9,6 +9,7 @@ import { fetchWorkoutForADay, getAllExercises, getExercises } from '../features/
 import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
 import EachDayAnalysis from './EachDayAnalysis';
 import Select from 'react-select';
+import NotLoggedIn from '../ReusableComponents/NotLoggedIn';
 export default function WorkoutHistory() {
     const dispatch = useDispatch();
     const allMuscles =
@@ -29,6 +30,7 @@ export default function WorkoutHistory() {
     const [exerciseOptions, setExerciseOptions] = useState("");
     const [exercise, setExercise] = useState("");
     const workout = useSelector(state => state.workout);
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     useEffect(() => {
         dispatch(getAllExercises());
 
@@ -37,9 +39,9 @@ export default function WorkoutHistory() {
     useEffect(() => {
         if (workout && workout.exercises) {
 
-            console.log("component data", workout.exercises);
+            
             const ExercisesNames = workout.exercises.map(each => { return ({ label: each.name, value: each.name }) })
-            console.log(ExercisesNames);
+            
             setExerciseOptions(ExercisesNames);
         }
     }, [workout, muscle])
@@ -52,63 +54,70 @@ export default function WorkoutHistory() {
     }
     return (
         <div>
-            <Heading title="Workout History" logo={<CgNotes />} desc={"Analyze your workout with your past workout data for each exercise."} />
-            <div className='border-b-2 mx-20 mb-5'>
-            <p className='text-center font-semibold'>Analyze an exercise during </p>
-                <div className='flex justify-center items-center gap-5 my-2 mb-5'>
+            {!isLoggedIn && <NotLoggedIn />}
+            {isLoggedIn && <div>
+                <Heading title="Workout History" logo={<CgNotes />} desc={"Analyze your workout with your past workout data for each exercise."} />
 
-                    <p className='bg-mypink text-white px-3 text-sm py-2 rounded-xl'>Past 7 days</p>
-                    <p className='bg-mypink text-white px-3 text-sm py-2 rounded-xl'>Past 30 days</p>
-                </div>
-                <div className='my-2'>
+                <div className='border-b-2 mx-20 mb-5'>
 
-                    <p className=''>Muscle Group</p>
-                    <Select
-                        placeholder="Select Muscle Group"
-                        className='text-center'
-                        defaultValue={muscle}
-                        onChange={option => setMuscle(option.value)}
-                        options={tempMuscleOptions}
-                    />
+
+                    {/* <div className='my-2'>
+
+                        <p className=''>Muscle Group</p>
+                        <Select
+                            placeholder="Select Muscle Group"
+                            className='text-center'
+                            defaultValue={muscle}
+                            onChange={option => setMuscle(option.value)}
+                            options={tempMuscleOptions}
+                        />
+                    </div>
+                    {(muscle && exerciseOptions) && <div>
+                        <p className=''>Exercise</p>
+                        <Select
+                            placeholder="Select Exercise"
+                            className='text-center'
+                            defaultValue={exercise}
+                            onChange={option => setExercise(option.value)}
+                            options={exerciseOptions}
+                        />
+                    </div>}
+                    <div className='flex justify-center gap-3 items-center my-5'>
+                        <span className='border-b-2 w-full'></span>
+                        <p>OR</p>
+                        <span className='border-b-2 w-full'></span>
+                    </div> */}
+
+                    <p className='text-center font-semibold text-xl my-4'>Select a Date</p>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateCalendar value={value} onChange={(newValue) => handleFetch(newValue)} />
+                    </LocalizationProvider>
                 </div>
-                {(muscle && exerciseOptions) && <div>
-                    <p className=''>Exercise</p>
-                    <Select
-                        placeholder="Select Exercise"
-                        className='text-center'
-                        defaultValue={exercise}
-                        onChange={option => setExercise(option.value)}
-                        options={exerciseOptions}
-                    />
+                {workout && workout.workoutDataForADay && !workout.workoutDataForADay.status &&
+                    <p className='text-center'>You did not track your workout on<br /> <span className='text-xl'>{formattedDate}</span></p>}
+                {workout && workout.workoutDataForADay && workout.workoutDataForADay.status && <div>
+                    <p className='text-center'>You did the following workouts on <br />  <span className='text-xl'>{formattedDate} </span>  </p>
+                    {selectedExercise && <p className='font-semibold mx-10 text-center my-2 border-t-2 border-b-2 py-2'>Scroll down for Graphical Analysis.</p>}
+                    <div className='flex flex-col justify-center gap-2  items-center mt-5'>
+                        {Object.keys(workout.workoutDataForADay.workoutDetails).map(each => {
+                            return (
+                                <div onClick={() => setSelectedExercise(each)} className={`${each === selectedExercise ? `bg-myprimecolor border-none text-white` : ``} cursor-pointer border-2 border-[#4942E4] p-3 rounded-xl flex  justify-center  items-center gap-2 hover:scale-105 transition-all`}>{each} <MdKeyboardDoubleArrowRight /></div>
+                            )
+                        })}
+                    </div>
                 </div>}
-                <div className='flex justify-center gap-3 items-center my-5'>
-                    <span className='border-b-2 w-full'></span>
-                    <p>OR</p>
-                    <span className='border-b-2 w-full'></span>
-                </div>
 
-                <p className='text-center font-semibold text-xl my-4'>Select a Date</p>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar value={value} onChange={(newValue) => handleFetch(newValue)} />
-                </LocalizationProvider>
-            </div>
-            {workout && workout.workoutDataForADay && !workout.workoutDataForADay.status &&
-                <p className='text-center'>You did not track your workout on<br /> <span className='text-xl'>{formattedDate}</span></p>}
-            {workout && workout.workoutDataForADay && workout.workoutDataForADay.status && <div>
-                <p className='text-center'>You did the following workouts on <br />  <span className='text-xl'>{formattedDate} </span>  </p>
-                {selectedExercise && <p className='font-semibold mx-10 text-center my-2 border-t-2 border-b-2 py-2'>Scroll down for Graphical Analysis.</p>}
-                <div className='flex flex-col justify-center gap-2  items-center mt-5'>
-                    {Object.keys(workout.workoutDataForADay.workoutDetails).map(each => {
-                        return (
-                            <div onClick={() => setSelectedExercise(each)} className={`${each === selectedExercise ? `bg-myprimecolor border-none text-white` : ``} cursor-pointer border-2 border-[#4942E4] p-3 rounded-xl flex  justify-center  items-center gap-2 hover:scale-105 transition-all`}>{each} <MdKeyboardDoubleArrowRight /></div>
-                        )
-                    })}
-                </div>
-            </div>}
+                {(selectedExercise && (workout && workout.workoutDataForADay && workout.workoutDataForADay.status)) && 
+                
+                
+                <div className='md:mx-auto md:flex md:justify-center md:items-center'>
 
-            {(selectedExercise && (workout && workout.workoutDataForADay && workout.workoutDataForADay.status)) && <EachDayAnalysis exerciseName={selectedExercise} data={workout.workoutDataForADay.workoutDetails[selectedExercise]} />}
-            {/* <WeekAnalysis data={ } />
+                <EachDayAnalysis exerciseName={selectedExercise} data={workout.workoutDataForADay.workoutDetails[selectedExercise]} />
+                
+                </div>}
+                {/* <WeekAnalysis data={ } />
             <MonthAnalysis data={ } /> */}
+            </div>}
         </div>
     )
 }

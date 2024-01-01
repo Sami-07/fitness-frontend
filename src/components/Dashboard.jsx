@@ -6,11 +6,15 @@ import { FaDumbbell } from "react-icons/fa6";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import MyRadialBar from '../ReusableComponents/MyRadialBar';
 import { useEffect, useState } from "react";
-import { calcPercentage, fetchMeals } from "../features/dashboard/dashboardSlice";
+import { calcPercentage, fetchMeals, fetchWaterIntake } from "../features/dashboard/dashboardSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getUserAssessment } from "../features/Assessment/assessmentSlice";
 import Button from "../ReusableComponents/Button";
+import NotLoggedIn from "../ReusableComponents/NotLoggedIn";
+
+
+import { getGoogleFitSteps } from "../api";
 export default function Dashboard() {
     const dispatch = useDispatch();
     const [maxCaloriesIntake, setMaxCaloriesIntake] = useState(2400);
@@ -20,14 +24,15 @@ export default function Dashboard() {
     const date = today.getDate();
 
     const month = today.toLocaleString('default', { month: 'short' });
-
+    const [per, setPer] = useState("");
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const assessmentData = useSelector(state => state.assessment.data);
     const dashboardApp = useSelector(state => state.app);
     useEffect(() => {
         dispatch(fetchMeals());
         dispatch(getUserAssessment())
-        console.log("check");
+        
+        dispatch(fetchWaterIntake());
     }, [])
     // useEffect(() => {
 
@@ -39,12 +44,25 @@ export default function Dashboard() {
     //     //     window.location.href = "/register"
     //     //  }
 
-
     // }, [per])
-
     useEffect(() => {
-console.log("assess", assessmentData);
+        //  const steps =    getGoogleFitSteps();
+        //  
+    }, [])
+    const waterIntake = useSelector(state => state.app.waterQty)
+    useEffect(() => {
+        dispatch(fetchWaterIntake());
+    }, [])
+    useEffect(() => {
+        if (dashboardApp && dashboardApp.totalCalories && assessmentData && assessmentData.calorieIntake) {
+            const x = (dashboardApp.totalCalories / assessmentData.calorieIntake) * 100
+            
+            setPer(x);
+        }
+    }, [dashboardApp, assessmentData])
+    useEffect(() => {
         
+
     }, [assessmentData, dashboardApp])
 
     return (
@@ -63,17 +81,25 @@ console.log("assess", assessmentData);
 
 
             </div>}
-            {(assessmentData && Object.keys(assessmentData).length > 0 && dashboardApp &&  Object.keys(dashboardApp).length > 0) && <div>
+
+            {(!isLoggedIn) && <NotLoggedIn />}
+
+
+
+            {(assessmentData && Object.keys(assessmentData).length > 0 && dashboardApp && Object.keys(dashboardApp).length > 0) && <div>
 
 
                 <Heading title={"Fitness Tracker"} logo={<MdOutlineFitbit />} />
-                <div onClick={() => window.location.href = "/foodtracker"} className="cursor-pointer bg-myprimecolor h-[20vh] mx-4 border-2  shadow-xl rounded-3xl">
+                <div onClick={() => window.location.href = "/foodtracker"} className="cursor-pointer bg-myprimecolor h-44 mx-4 border-2  shadow-xl rounded-3xl">
 
 
                     <div className="flex justify-center items-center  border-2 mx-0 px-2 bg-white rounded-3xl -mt-1">
-                        {(dashboardApp && assessmentData &&  Object.keys(dashboardApp).length > 0) &&
-                         <MyRadialBar percentage={((dashboardApp.totalCalories / assessmentData.calorieIntake) * 100)} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
 
+                        {!per && <MyRadialBar percentage={0} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+                        {(dashboardApp && assessmentData && Object.keys(dashboardApp).length > 0 && per) &&
+                            <div>
+                                <MyRadialBar percentage={per} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />
+                            </div>}
                         <div className="font-medium">
                             <p className="font-">Hit your daily Calorie Goal</p>
                             {(dashboardApp && assessmentData) && <p className="text-xs">Remaining {" "}
@@ -99,15 +125,20 @@ console.log("assess", assessmentData);
                 </div>
                 <div>
                     <div className='grid grid-cols-2 px-5 gap-5 mt-8'>
-                        <div className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
+                        <div onClick={() => window.location.href = "/waterintake"} className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
                             <h3 className='text-center font-semibold'>Water Intake</h3>
-                            <MyRadialBar percentage={70} title={"Water"} labelFontSize={"10px"} valueFontSize={"16px"} />
-                            <p className="text-xs">1.5 L of 5 L remaining</p>
+                            {(dashboardApp && !waterIntake) && <MyRadialBar percentage={0} title={"Water"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+                            {(dashboardApp && waterIntake > 0) && <MyRadialBar percentage={(waterIntake / 5) * 100} title={"Water"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+                            {(dashboardApp && waterIntake > 0) && <p className="text-xs">{waterIntake}L of 5 L remaining</p>}
+                            {(dashboardApp && !waterIntake) && <p className="text-xs">0L of 5 L remaining</p>}
                         </div>
-                        <div className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
-                            <h3 className='text-center font-semibold'>Cal. Burnt</h3>
-                            <MyRadialBar percentage={70} title={"Cal. burnt"} labelFontSize={"10px"} valueFontSize={"16px"} />
-                            <p className="text-xs">432 of 570 Cal burnt </p>
+                        <div onClick={() => window.location.href = "/foodtracker"} className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
+                            <h3 className='text-center font-semibold'>Calories Intake</h3>
+                            {!per && <MyRadialBar percentage={0} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+                            {(dashboardApp && assessmentData && Object.keys(dashboardApp).length > 0 && per) && <MyRadialBar percentage={per} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+                            {(dashboardApp && assessmentData) && <p className="text-xs">
+                                    {(assessmentData.calorieIntake - dashboardApp.totalCalories).toPrecision(4)}   of {assessmentData.calorieIntake} Cal  remaining
+                                </p>}
                         </div>
                         <div className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
                             <h3 className='text-center font-semibold'>Protein Intake</h3>

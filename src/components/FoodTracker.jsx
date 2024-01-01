@@ -22,10 +22,16 @@ export default function FoodTracker() {
   const dispatch = useDispatch();
   const assessmentData = useSelector(state => state.assessment.data);
   const dashboardApp = useSelector(state => state.app);
-
+  const [per, setPer] = useState("");
   const result = useSelector((state) => state.app.totalCalories);
 
-
+  useEffect(() => {
+    if (dashboardApp && dashboardApp.totalCalories && assessmentData && assessmentData.calorieIntake) {
+      const x = (dashboardApp.totalCalories / assessmentData.calorieIntake) * 100
+      
+      setPer(x);
+    }
+  }, [dashboardApp, assessmentData])
   useEffect(() => {
     dispatch(fetchMeals());
     dispatch(getUserAssessment())
@@ -38,8 +44,11 @@ export default function FoodTracker() {
         <Heading title={"Food Tracker"} logo={<IoFastFoodOutline />} desc={"Track your food Intake."} />
 
         <div className="flex justify-center items-center  border-2 mx-0 px-2 bg-white rounded-3xl -mt-1">
-          {(dashboardApp && assessmentData && Object.keys(dashboardApp).length > 0) &&
-            <MyRadialBar percentage={((dashboardApp.totalCalories / assessmentData.calorieIntake) * 100)} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+        {!per && <MyRadialBar percentage={0} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
+          {(dashboardApp && assessmentData && Object.keys(dashboardApp).length > 0 && per  ) &&
+            <div>
+              <MyRadialBar percentage={per} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />
+            </div>}
 
           <div className="font-medium">
             <p className="font-">Hit your daily Calorie Goal</p>

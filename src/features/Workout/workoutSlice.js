@@ -16,7 +16,7 @@ export const getExercises = createAsyncThunk("getExercises", async (muscle) => {
 
 export const addWorkout = createAsyncThunk("addWorkout", async (data) => {
     const res = await api.addWorkout(data)
-    console.log("added", res.res);
+    
     return res.res;
 })
 
@@ -41,13 +41,13 @@ export const deleteSet = createAsyncThunk("deleteSet", async (data) => {
 })
 export const fetchWorkoutForADay = createAsyncThunk("fetchWorkoutForADay", async (selectedDate) => {
     const res = await api.fetchWorkoutForADay(selectedDate);
-    console.log("data of a date workout", res);
+    
     return res;
 
 })
 export const getAllExercises = createAsyncThunk("getAllExercises", async () => {
     const res = await api.getAllExercises();
-    // console.log("data of a date workout", res);
+    // 
     return res;
 
 })

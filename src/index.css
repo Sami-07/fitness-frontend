@@ -5,6 +5,7 @@
 
 body {
   font-family: 'Work Sans';
+  /* background: radial-gradient(circle at 22.4% 21.7%, rgb(4, 189, 228) 0%, rgb(2, 83, 185) 100.2%); */
 }
 
 code {
@@ -14,4 +15,18 @@ code {
 
 .gradientbg {
   background: radial-gradient(circle at 22.4% 21.7%, rgb(4, 189, 228) 0%, rgb(2, 83, 185) 100.2%);
+}
+
+.gradientbg2 {
+  /* background-image: linear-gradient(to top, #09203f 0%, #537895 100%); */
+  background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
+}
+
+.gradientbg3 {
+  background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+}
+
+.textClip {
+  -webkit-background-clip: text;
+  color: transparent;
 }
