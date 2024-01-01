@@ -20,7 +20,7 @@ export default function Register() {
     const authError = useSelector(state => state.auth.error)
     useEffect(() => {
         if (isLoggedIn) {
-            window.location.href = "/dashboard";
+            window.location.href = "/mydashboard";
         }
     }, [isLoggedIn])
 

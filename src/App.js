@@ -58,7 +58,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/assessment" element={<Assessment />} />
             <Route path="/editassessment" element={<EditAssessment />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/mydashboard" element={<Dashboard />} />
             <Route path="/foodtracker" element={<FoodTracker />} />
             <Route path="/nutrientsinfo" element={<MacroNutrientsContent />} />
             <Route path="/custommeal" element={<CustomMeal />} />

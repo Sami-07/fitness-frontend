@@ -15,7 +15,7 @@ export default function Login() {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
   useEffect(() => {
     if (isLoggedIn) {
-      window.location.href = "/dashboard";
+      window.location.href = "/mydashboard";
     }
   }, [isLoggedIn])
   const [email, setEmail] = useState("");

@@ -22,7 +22,7 @@ export async function register(userName, email) {
     try {
 
 
-        const data = await fetch( "/register", {
+        const data = await fetch( "/dashboard/register", {
             method: "POST",
             headers: {
 
@@ -48,7 +48,7 @@ export async function registerGoogleUser(displayName, email) {
     try {
 
 
-        const data = await fetch( "/registergoogleuser", {
+        const data = await fetch( "/dashboard/registergoogleuser", {
             method: "POST",
             headers: {
 

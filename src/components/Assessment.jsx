@@ -198,7 +198,7 @@ export default function Assessment() {
       if (res) {
 
         setTimeout(() => {
-          window.location.href = "/dashboard"
+          window.location.href = "/mydashboard"
         }, 2000)
         toast.success('Assessment recorded successfully!', {
           position: "top-center",

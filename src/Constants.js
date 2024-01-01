@@ -12,7 +12,7 @@ export const features = [
     {
         featureTitle: "Track your Meals",
         img: feature2img,
-        link: "/dashboard"
+        link: "/mydashboard"
     },
     {
         featureTitle: "Analyze your Workouts",

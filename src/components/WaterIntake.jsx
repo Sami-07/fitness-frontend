@@ -18,7 +18,7 @@ export default function WaterIntake() {
     useEffect(() => {
         if (dashboard && dashboard.addStatus) {
             setTimeout(() => {
-                window.location.href = "/dashboard"
+                window.location.href = "/mydashboard"
             }, 2000)
             toast.success("Logged Water Intake", {
                 position: "top-center",

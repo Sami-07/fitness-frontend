@@ -31,13 +31,13 @@ export default function Navbar() {
   }, [isLoggedIn])
   const links = {
     "Home": "/",
-    "My Tracker": "/dashboard",
+    "My Tracker": "/mydashboard",
     "Workout History": "/workouthistory",
     "Track Workout": "/trackworkout"
   }
   const navNames = {
     "/": "Home",
-    "/dashboard": "My Tracker",
+    "/mydashboard": "My Tracker",
     "/workouthistory": "Workout History",
     "/trackworkout": "Track Workout"
   }
