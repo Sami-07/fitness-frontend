@@ -133,10 +133,11 @@ export async function getUserAssessment() {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken;
-                    const result = await fetch(baseUrl + "/dashboard/getuserassessment", {
+                    const result = await fetch("/dashboard/getuserassessment", {
                         method: "GET",
                         headers: {
-                            Authorization: `Bearer ${idToken}`
+                            Authorization: `Bearer ${idToken}`,
+                            
                         }
                     });
 
