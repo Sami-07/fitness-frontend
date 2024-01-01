@@ -1,7 +1,7 @@
 import { auth } from "../firebase/config";
 
-const url = "http://localhost:5000/dashboard"
-const baseUrl = "http://localhost:5000"
+const url = "https://fitness-webapp-backend.vercel.app/dashboard"
+const baseUrl = "https://fitness-webapp-backend.vercel.app"
 
 
 
@@ -294,7 +294,7 @@ export function getMeals() {
 
 
 export async function fetchBreakfastData() {
-    await fetch('http://localhost:5000/dashboard/getbreakfastinfo')
+    await fetch('https://fitness-webapp-backend.vercel.app/dashboard/getbreakfastinfo')
 }
 
 export async function addBreakfastData(breakfastFoodData) {
@@ -307,7 +307,7 @@ export async function addBreakfastData(breakfastFoodData) {
                     // User is logged in
                     const idToken = await user.accessToken;
 
-                    const data = await fetch('http://localhost:5000/dashboard/addbreakfast', {
+                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/addbreakfast', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -335,7 +335,7 @@ export async function addMorningSnacksData(morningSnacksData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('http://localhost:5000/dashboard/addmorningsnacks', {
+                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/addmorningsnacks', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -367,7 +367,7 @@ export async function addLunch(lunchData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('http://localhost:5000/dashboard/addlunch', {
+                    const data = await fetch('https://fitness-webapp-backend.vercel.app/addlunch', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -394,7 +394,7 @@ export async function addEveningSnacks(eveningSnacksData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('http://localhost:5000/dashboard/addeveningsnacks', {
+                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/addeveningsnacks', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -422,7 +422,7 @@ export async function addDinner(dinnerData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('http://localhost:5000/dashboard/adddinner', {
+                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/adddinner', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
