@@ -105,27 +105,53 @@ export async function addAssessmentDetails({ age, gender, height, weight, approa
     }
 }
 
+// export async function getUserAssessment() {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             auth.onAuthStateChanged(async (user) => {
+//                 if (user) {
+//                     const idToken = await user.accessToken;
+//                     const result = await fetch( "/dashboard/getuserassessment", {
+//                         method: "GET",
+//                         headers: {
+//                             Authorization: `Bearer ${idToken}`
+//                         }
+//                     })
+//                     const parsedRes = await result.json();
+//                     resolve({ parsedRes })
+//                 }
+//             })
+//         }
+//         catch (err) {
+
+//         }
+//     })
+// }
 export async function getUserAssessment() {
     return new Promise(async (resolve, reject) => {
         try {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken;
-                    const result = await fetch( "/dashboard/getuserassessment", {
+                    const result = await fetch("/dashboard/getuserassessment", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${idToken}`
                         }
-                    })
-                    const parsedRes = await result.json();
-                    resolve({ parsedRes })
-                }
-            })
-        }
-        catch (err) {
+                    });
 
+                    if (!result.ok) {
+                        throw new Error(`HTTP error! Status: ${result.status}`);
+                    }
+
+                    const parsedRes = await result.json();
+                    resolve({ parsedRes });
+                }
+            });
+        } catch (err) {
+            reject(err);
         }
-    })
+    });
 }
 
 //CALCULATE MACRO INTAKE
