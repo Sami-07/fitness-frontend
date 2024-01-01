@@ -1,7 +1,7 @@
 import { auth } from "../firebase/config";
 
-// const url = "http://localhost:5000/dashboard"
-// const baseUrl = "http://localhost:5000"
+const url = "http://localhost:5000/dashboard"
+const baseUrl = "http://localhost:5000"
 // const url = "https://fitness-webapp-backend.vercel.app/dashboard"
 // const baseUrl = "https://fitness-webapp-backend.vercel.app"
 
@@ -79,7 +79,7 @@ export async function addAssessmentDetails({ age, gender, height, weight, approa
         const idToken = await user.getIdToken();
 
         // Assuming 'url' is defined somewhere in your code
-        const response = await fetch("/addassessmentdetails", {
+        const response = await fetch( "/dashboard/addassessmentdetails", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export async function addAssessmentDetails({ age, gender, height, weight, approa
         const parsedRes = await response.json();
 
         // Assuming 'url' is defined somewhere in your code
-        const x = await fetch("/calculatemacrointake", {
+        const x = await fetch( "/dashboard/calculatemacrointake", {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${idToken}`
@@ -111,7 +111,7 @@ export async function getUserAssessment() {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken;
-                    const result = await fetch("/getuserassessment", {
+                    const result = await fetch( "/dashboard/getuserassessment", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${idToken}`
@@ -135,7 +135,7 @@ export async function calculateIntake() {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken;
-                    const res = await fetch("/calculatemacrointake", {
+                    const res = await fetch( "/dashboard/calculatemacrointake", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${idToken}`
@@ -160,7 +160,7 @@ export async function addBodyWeight({ weight }) {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken
-                    const res = await fetch("/addbodyweight", {
+                    const res = await fetch( "/dashboard/addbodyweight", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -186,7 +186,7 @@ export async function getTodayBodyWeight() {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 const idToken = await user.accessToken;
-                const result = await fetch("/gettodaysbodyweight", {
+                const result = await fetch( "/dashboard/gettodaysbodyweight", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${idToken}`
@@ -207,7 +207,7 @@ export function updateBodyWeight({ weight }) {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken
-                    const res = await fetch("/updatebodyweight", {
+                    const res = await fetch( "/dashboard/updatebodyweight", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -230,7 +230,7 @@ export function updateBodyWeight({ weight }) {
 //FETCH search results from PUBLIC api
 export async function fetchResults(term) {
 
-    const res = await fetch("/fetchresults", {
+    const res = await fetch( "/dashboard/fetchresults", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -247,7 +247,7 @@ export async function getFitnessInfo() {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.accessToken;
-                    const res = await fetch("/getgooglefitnessinfo",
+                    const res = await fetch( "/dashboard/getgooglefitnessinfo",
                         {
                             method: "GET",
                             headers: {
@@ -274,7 +274,7 @@ export function getMeals() {
                     const idToken = await user.accessToken;
 
 
-                    const result = await fetch("/getmeals", {
+                    const result = await fetch( "/dashboard/getmeals", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -296,7 +296,7 @@ export function getMeals() {
 
 
 export async function fetchBreakfastData() {
-    await fetch('/getbreakfastinfo')
+    await fetch( '/dashboard/getbreakfastinfo')
 }
 
 export async function addBreakfastData(breakfastFoodData) {
@@ -309,7 +309,7 @@ export async function addBreakfastData(breakfastFoodData) {
                     // User is logged in
                     const idToken = await user.accessToken;
 
-                    const data = await fetch('/addbreakfast', {
+                    const data = await fetch( '/dashboard/addbreakfast', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -337,7 +337,7 @@ export async function addMorningSnacksData(morningSnacksData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('/addmorningsnacks', {
+                    const data = await fetch( '/dashboard/addmorningsnacks', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -369,7 +369,7 @@ export async function addLunch(lunchData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('/addlunch', {
+                    const data = await fetch( '/dashboard/addlunch', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -396,7 +396,7 @@ export async function addEveningSnacks(eveningSnacksData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('/addeveningsnacks', {
+                    const data = await fetch( '/dashboard/addeveningsnacks', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -424,7 +424,7 @@ export async function addDinner(dinnerData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('/adddinner', {
+                    const data = await fetch( '/dashboard/adddinner', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -451,7 +451,7 @@ export async function addWater(qty) {
         return { status: false, message: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
-    const res = await fetch("/addwater", {
+    const res = await fetch( "/dashboard/addwater", {
         method: "POST",
         headers: {
 
@@ -470,7 +470,7 @@ export async function fetchWaterIntake() {
             auth.onAuthStateChanged(async (user) => {
                 if (user) {
                     const idToken = await user.getIdToken();
-                    const res = await fetch("/fetchwaterintake", {
+                    const res = await fetch( "/dashboard/fetchwaterintake", {
                         method: "GET",
                         headers: {
 
@@ -500,7 +500,7 @@ export async function getFoodNutrients(foodName) {
                     // User is logged in
                     const idToken = await user.accessToken;
 
-                    const data = await fetch(`/foodnutrients`, {
+                    const data = await fetch(`${url}/foodnutrients`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -531,7 +531,7 @@ export async function getExistingMealNutrients(foodName, mealType) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch("/getexistingmealnutrients", {
+                    const data = await fetch( "/dashboard/getexistingmealnutrients", {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -562,7 +562,7 @@ export async function getAllCustomMeals() {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const response = await fetch("/getallcustommeals", {
+                    const response = await fetch( "/dashboard/getallcustommeals", {
                         method: "GET",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -592,7 +592,7 @@ export async function addCustomMeal(CustomMealDetails) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch("/addcustommeal",
+                    const data = await fetch( "/dashboard/addcustommeal",
                         {
                             method: "POST",
                             headers: {
@@ -628,7 +628,7 @@ export async function removeMeal(foodItem, mealType) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch("/removemeal",
+                    const data = await fetch( "/dashboard/removemeal",
                         {
                             method: "POST",
                             headers: {
@@ -667,7 +667,7 @@ export async function getExercises(muscle) {
         const idToken = await user.getIdToken();
 
         // Assuming 'url' is defined somewhere in your code
-        const response = await fetch("/getexercises", {
+        const response = await fetch( "/dashboard/getexercises", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -697,7 +697,7 @@ export async function addWorkout(data) {
         }
         const idToken = await user.getIdToken();
 
-        const res = await fetch("/addworkout", {
+        const res = await fetch( "/dashboard/addworkout", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -719,7 +719,7 @@ export async function getWorkoutDetails() {
         auth.onAuthStateChanged(async (user) => {
             if (user) {
                 const idToken = await user.getIdToken();
-                const res = await fetch("/getworkoutdetails", {
+                const res = await fetch( "/dashboard/getworkoutdetails", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${idToken}`
@@ -739,7 +739,7 @@ export async function changeWorkoutDay(workoutDay) {
         return { status: false, message: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
-    const res = await fetch("/editworkoutday",
+    const res = await fetch( "/dashboard/editworkoutday",
         {
             method: "POST",
             headers: {
@@ -758,7 +758,7 @@ export async function editSet(data) {
         return { status: false, error: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
-    const res = await fetch("/editset", {
+    const res = await fetch( "/dashboard/editset", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -776,7 +776,7 @@ export async function deleteSet(data) {
         return { status: false, error: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
-    const res = await fetch("/deleteset", {
+    const res = await fetch( "/dashboard/deleteset", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -794,7 +794,7 @@ export async function fetchWorkoutForADay(selectedDate) {
         return { status: false, error: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
-    const res = await fetch("/fetchworkoutforaday", {
+    const res = await fetch( "/dashboard/fetchworkoutforaday", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -812,7 +812,7 @@ export async function getAllExercises() {
         return { status: false, error: "Unauthorized" }
     }
     const idToken = await user.getIdToken();
-    const res = await fetch("/getallexercises", {
+    const res = await fetch( "/dashboard/getallexercises", {
         method: "GET",
         headers: {
 
@@ -872,7 +872,7 @@ export async function getAllExercises() {
 //     }
 
 //     const idToken = await user.getIdToken();
-//     const res = await fetch("/getgooglesteps", {
+//     const res = await fetch( "/dashboard/getgooglesteps", {
 //         method: "GET",
 //         headers: {
 
@@ -895,7 +895,7 @@ export async function getGoogleFitSteps() {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const res = await fetch("/getgooglesteps", {
+                    const res = await fetch( "/dashboard/getgooglesteps", {
                         method: "GET",
                         headers: {
 
