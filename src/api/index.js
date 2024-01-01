@@ -1,5 +1,7 @@
 import { auth } from "../firebase/config";
 
+// const url = "http://localhost:5000/dashboard"
+// const baseUrl = "http://localhost:5000"
 const url = "https://fitness-webapp-backend.vercel.app/dashboard"
 const baseUrl = "https://fitness-webapp-backend.vercel.app"
 
@@ -270,7 +272,7 @@ export function getMeals() {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    
+
 
                     const result = await fetch(url + "/getmeals", {
                         method: "GET",
@@ -294,7 +296,7 @@ export function getMeals() {
 
 
 export async function fetchBreakfastData() {
-    await fetch('https://fitness-webapp-backend.vercel.app/dashboard/getbreakfastinfo')
+    await fetch(url + '/getbreakfastinfo')
 }
 
 export async function addBreakfastData(breakfastFoodData) {
@@ -307,7 +309,7 @@ export async function addBreakfastData(breakfastFoodData) {
                     // User is logged in
                     const idToken = await user.accessToken;
 
-                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/addbreakfast', {
+                    const data = await fetch(url + '/addbreakfast', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -335,7 +337,7 @@ export async function addMorningSnacksData(morningSnacksData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/addmorningsnacks', {
+                    const data = await fetch(url + '/addmorningsnacks', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -367,7 +369,7 @@ export async function addLunch(lunchData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('https://fitness-webapp-backend.vercel.app/addlunch', {
+                    const data = await fetch(url + '/addlunch', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -394,7 +396,7 @@ export async function addEveningSnacks(eveningSnacksData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/addeveningsnacks', {
+                    const data = await fetch(url + '/addeveningsnacks', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -422,7 +424,7 @@ export async function addDinner(dinnerData) {
                 if (user) {
                     // User is logged in
                     const idToken = await user.accessToken;
-                    const data = await fetch('https://fitness-webapp-backend.vercel.app/dashboard/adddinner', {
+                    const data = await fetch(url + '/adddinner', {
                         method: "POST",
                         headers: {
                             Authorization: `Bearer ${idToken}`,
@@ -478,7 +480,7 @@ export async function fetchWaterIntake() {
                     })
 
                     const parsedRes = await res.json();
-                    
+
                     resolve({ parsedRes });
                 }
             })
@@ -704,7 +706,7 @@ export async function addWorkout(data) {
             body: JSON.stringify(data)
         })
         const parsedRes = await res.json();
-        
+
         return { res: parsedRes }
     } catch (err) {
         return { status: false }
@@ -804,7 +806,7 @@ export async function fetchWorkoutForADay(selectedDate) {
     return parsedRes;
 }
 export async function getAllExercises() {
-    
+
     const user = auth.currentUser;
     if (!user) {
         return { status: false, error: "Unauthorized" }
@@ -820,7 +822,7 @@ export async function getAllExercises() {
     })
 
     const parsedRes = await res.json();
-    
+
     return parsedRes;
 }
 
@@ -902,7 +904,7 @@ export async function getGoogleFitSteps() {
 
                     })
                     const parsedRes = await res.json();
-                    
+
                     if (res) {
                         resolve({ parsedRes })
                     }
