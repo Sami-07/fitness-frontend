@@ -14,7 +14,7 @@ export default function About() {
           <img className=' h-14 w-14  rounded-lg' src={FFlogo} alt='logo' />
           <h1 className='text-center text-3xl'> Fitness Freak<span className='text-mypink text-5xl ml-1 font-semibold'>.</span></h1>
         </div>
-        <p className='text-center px-5 mt-5 mx-36'>{about} </p>
+        <p className='text-center px-5 mt-5 md:mx-36'>{about} </p>
       </div>
       <div>
         <h2 className='text-center mt-4 text-3xl'>Features<span className='text-mypink text-5xl ml-1 font-semibold'>.</span></h2>
