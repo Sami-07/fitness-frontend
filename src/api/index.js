@@ -1,8 +1,8 @@
 import { auth } from "../firebase/config";
 
-// const url = "http://localhost:5000/dashboard"
+const url = "http://localhost:5000/dashboard"
 // const baseUrl = "http://localhost:5000"
-const url = "https://fitness-webapp-backend.vercel.app/dashboard"
+// const url = "https://fitness-webapp-backend.vercel.app/dashboard"
 const baseUrl = "https://fitness-webapp-backend.vercel.app"
 
 
@@ -527,7 +527,7 @@ export async function getFoodNutrients(foodName) {
                     // User is logged in
                     const idToken = await user.accessToken;
 
-                    const data = await fetch(`${url}/foodnutrients`, {
+                    const data = await fetch(`/foodnutrients`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
