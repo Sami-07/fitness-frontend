@@ -28,14 +28,14 @@ export default function Navbar() {
 
   let params = useParams();
   async function f() {
-    const res = await fetch("http://localhost:5000", {
+    const res = await fetch("https://fitness-webapp-backend-ft91.onrender.com/api-health", {
       credentials: "include"
     });
     const data = await res.json();
   
   }
   useEffect(() => {
-    // f()
+    f()
     dispatch(getUser())
    
   }, [])
