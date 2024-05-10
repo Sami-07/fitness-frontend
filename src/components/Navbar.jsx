@@ -35,7 +35,7 @@ export default function Navbar() {
   
   }
   useEffect(() => {
-    f()
+    // f()
     dispatch(getUser())
    
   }, [])
