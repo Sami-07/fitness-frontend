@@ -1,10 +1,4 @@
-
-
-const url = "http://localhost:5000"
-// const baseUrl = "http://localhost:5000"
-// const url = "https://fitness-webapp-backend.vercel.app/dashboard"
-// const baseUrl = "https://fitness-webapp-backend.vercel.app"
-
+const url = "https://fitness-webapp-backend-ft91.onrender.com"
 
 const auth = {}
 export async function getCurrentUser() {
