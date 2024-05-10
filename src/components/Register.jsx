@@ -69,7 +69,22 @@ export default function Register() {
         }
 
         else {
-            dispatch(register({  userName, email, password  }));
+            // dispatch(register({  userName, email, password  }));
+            const data = await fetch(url + "/register", {
+                method: "POST",
+                credentials: "include",
+    
+                headers: {
+                    "Content-Type": "application/json",
+    
+    
+    
+                },
+                body: JSON.stringify({ userName, email, password })
+            })
+    
+            const pasredData = await data.json();
+            console.log("done register")
         }
 
 
