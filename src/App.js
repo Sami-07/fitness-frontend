@@ -14,8 +14,7 @@ import MacroNutrientsContent from "./components/MacroNutrientsContent";
 import AddCustomMeal from "./components/AddCustomMeal";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import { auth } from "./firebase/config";
-import {  loginExistingUser, logout } from "./features/Auth/authSlice";
+
 import WeightTracker from "./components/WeightTracker";
 import EditAssessment from "./components/EditAssessment";
 import WorkoutHistory from "./components/WorkoutHistory";
@@ -27,20 +26,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-
-        dispatch(loginExistingUser(user));
-      } else {
-        // User is logged out
-
-        dispatch(logout());
-        // window.location.href = "/"
-      }
-    });
-
-    // Cleanup the observer when the component unmounts
-    return () => unsubscribe();
+    
   }, []);
 
 

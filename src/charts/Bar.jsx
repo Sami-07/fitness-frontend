@@ -57,7 +57,7 @@ export default function Bar({ allWeights, allReps }) {
                         options={chartData.options}
                         series={chartData.series}
                         type="bar"
-                        width="450"
+                        width="300"
 
                     />}
                 </div>

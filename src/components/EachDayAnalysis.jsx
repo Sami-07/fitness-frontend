@@ -18,7 +18,7 @@ export default function EachDayAnalysis({ exerciseName, data }) {
         
     }, [data])
     return (
-        <div className='mt-10'>
+        <div className='mt-10 flex flex-col justify-center items-center'>
             <p className='px-10 text-center text-lg'>Your Progress for <span className='font-semibold'>
                 {exerciseName}
             </span>  on selectedDate</p>

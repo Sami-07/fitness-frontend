@@ -17,12 +17,8 @@ import NotLoggedIn from "../ReusableComponents/NotLoggedIn";
 import { getGoogleFitSteps } from "../api";
 export default function Dashboard() {
     const dispatch = useDispatch();
-    const [maxCaloriesIntake, setMaxCaloriesIntake] = useState(2400);
-
-
     const today = new Date();
     const date = today.getDate();
-
     const month = today.toLocaleString('default', { month: 'short' });
     const [per, setPer] = useState("");
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -30,25 +26,10 @@ export default function Dashboard() {
     const dashboardApp = useSelector(state => state.app);
     useEffect(() => {
         dispatch(fetchMeals());
-        dispatch(getUserAssessment())
-        
+        dispatch(getUserAssessment()) 
         dispatch(fetchWaterIntake());
     }, [])
-    // useEffect(() => {
 
-
-    //     // IF SOMETHING breaks, shift the fetchMeals() to here from the above useEffect();
-
-    //     // dispatch(fetchMeals());
-    //     //  if(!isLoggedIn){
-    //     //     window.location.href = "/register"
-    //     //  }
-
-    // }, [per])
-    useEffect(() => {
-        //  const steps =    getGoogleFitSteps();
-        //  
-    }, [])
     const waterIntake = useSelector(state => state.app.waterQty)
     useEffect(() => {
         dispatch(fetchWaterIntake());
@@ -60,10 +41,6 @@ export default function Dashboard() {
             setPer(x);
         }
     }, [dashboardApp, assessmentData])
-    useEffect(() => {
-        
-
-    }, [assessmentData, dashboardApp])
 
     return (
         <div>
@@ -143,7 +120,7 @@ export default function Dashboard() {
                         <div className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
                             <h3 className='text-center font-semibold'>Protein Intake</h3>
                             {(assessmentData && dashboardApp) && <MyRadialBar percentage={(dashboardApp.totalProtein / assessmentData.proteinIntake) * 100} title={"Protein"} labelFontSize={"10px"} valueFontSize={"16px"} />}
-                            {(assessmentData && dashboardApp) && <p className="text-xs">{assessmentData.proteinIntake - dashboardApp.totalProtein}g of {assessmentData.proteinIntake}g remaining</p>}
+                            {(assessmentData && dashboardApp) && <p className="text-xs">{parseInt(assessmentData.proteinIntake - dashboardApp.totalProtein)}g of {assessmentData.proteinIntake}g remaining</p>}
                         </div>
                         <div onClick={() => window.location.href = "/weighttracker"} className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
                             <h3 className='text-center font-semibold'>Weight Tracker</h3>

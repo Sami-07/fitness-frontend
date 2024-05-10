@@ -7,8 +7,7 @@ import Button from '../ReusableComponents/Button';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import Heading from '../ReusableComponents/Heading';
 import { useDispatch } from 'react-redux';
-import { addBreakfastData, addDinner, addEveningSnacks, addLunch, addMorningSnacksData } from '../features/dashboard/dashboardSlice';
-import { calcNutrients } from '../functions/calcNutrients';
+import { addBreakfastData, addMorningSnacksData, addLunch, addEveningSnacks, addDinner } from '../features/dashboard/dashboardSlice';
 
 export default function MacroNutrientsContent() {
   const search = useLocation().search;
@@ -106,6 +105,8 @@ export default function MacroNutrientsContent() {
     const newFoodInfo2 = calcNutrientsPerGram(foodInfo, qty);
 
     if (mealType == "breakfast") {
+
+     
       dispatch(addBreakfastData(newFoodInfo2));
     }
     else if (mealType == "morningsnacks") {

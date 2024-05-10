@@ -5,11 +5,11 @@ import FFlogo from "../images/FFlogo.png"
 import { FcGoogle } from "react-icons/fc";
 import { FiLogIn } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from '../firebase/config';
+
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { loginWithGoogle } from '../features/Auth/authSlice';
+
 import { register } from '../features/Auth/authSlice';
 export default function Register() {
     const [userName, setUserName] = useState("");
@@ -25,10 +25,7 @@ export default function Register() {
     }, [isLoggedIn])
 
 
-    async function handleGoogleLogin() {
-
-        dispatch(loginWithGoogle())
-    }
+ 
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -72,7 +69,7 @@ export default function Register() {
         }
 
         else {
-            dispatch(register({ auth, email, password, userName }));
+            dispatch(register({  userName, email, password  }));
         }
 
 
@@ -92,16 +89,7 @@ export default function Register() {
                 pauseOnHover
                 theme="dark"
             />
-            {authError && toast.error(authError, {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            })}
+         
             <img className=' h-14 w-14 mx-auto mt-20 -mb-5 rounded-lg' src={FFlogo} alt='logo' />
             <Heading title={"Create an Account"} />
             <form onSubmit={handleSubmit} className='flex flex-col gap-5 border-2 rounded-xl mx-5 py-10 gradientbg md:w-1/2 md:mx-auto'>
@@ -131,14 +119,9 @@ export default function Register() {
                 </div>
                 <p className='px-4 text-gray-100'>Already have an account?<a href='/login' className=' font-semibold underline underline-offset-4'> Login</a></p>
             </form>
-            <p className='text-center my-4'>OR</p>
 
-            <div onClick={() => handleGoogleLogin()}>
-                <button className='flex justify-center items-center mx-auto gap-5 text-xl border-2 py-3 px-10 rounded-xl shadow-lg'><FcGoogle className='text-4xl' />
-                    Sign in with Google</button>
 
-            </div>
-
+        
 
         </div>
     )

@@ -22,6 +22,10 @@ const initialState = {
 
 }
 
+
+
+
+
 export const fetchMeals = createAsyncThunk("fetchMeals", async () => {
     try {
         const result = await api.getMeals();
@@ -32,6 +36,78 @@ export const fetchMeals = createAsyncThunk("fetchMeals", async () => {
         console.log(err.message);
     }
 })
+
+
+export const addBreakfastData = createAsyncThunk("addBreakfastData", async (payload) => {
+    try {
+      
+        const result = await api.addBreakfastData(payload);
+      
+        return result;
+    } catch (err) {
+        console.log(err.message);
+        throw err;
+    }
+});
+
+export const addMorningSnacksData = createAsyncThunk("addMorningSnacksData", async (payload) => {
+    try {
+        const result = await api.addMorningSnacksData(payload);
+        return result;
+    } catch (err) {
+        console.log(err.message);
+        throw err;
+    }
+});
+
+export const addLunch = createAsyncThunk("addLunch", async (payload) => {
+    try {
+        const result = await api.addLunch(payload);
+        return result;
+    } catch (err) {
+        console.log(err.message);
+        throw err;
+    }
+});
+
+export const addEveningSnacks = createAsyncThunk("addEveningSnacks", async (payload) => {
+    try {
+        const result = await api.addEveningSnacks(payload);
+        return result;
+    } catch (err) {
+        console.log(err.message);
+        throw err;
+    }
+});
+
+export const addDinner = createAsyncThunk("addDinner", async (payload) => {
+    try {
+        const result = await api.addDinner(payload);
+        
+        return result;
+    } catch (err) {
+        console.log(err.message);
+        throw err;
+    }
+});
+
+export const removeMeal = createAsyncThunk("removeMeal", async (payload) => {
+    try {
+        await api.removeMeal(payload);
+    } catch (err) {
+        console.log(err.message);
+        throw err;
+    }
+});
+
+export const calcPercentage = createAsyncThunk("calcPercentage", async (payload) => {
+    // You can add async logic here if needed
+    return payload;
+});
+
+
+
+
 export const addWater = createAsyncThunk("addWater", async (qty) => {
     try {
         const result = await api.addWater(qty);
@@ -57,59 +133,7 @@ export const dashboardSlice = createSlice({
     name: "foodItems",
     initialState,
     reducers: {
-        addBreakfastData: async (state, action) => {
-            try {
-                const result = await api.addBreakfastData(action.payload);
-            }
-            catch (err) {
-                console.log(err.message);
-            }
-        },
-        addMorningSnacksData: async (state, action) => {
-            try {
-                const result = await api.addMorningSnacksData(action.payload);
-            }
-            catch (err) {
-                console.log(err.message);
-            }
-        },
-        addLunch: async (state, action) => {
-            try {
-                const result = await api.addLunch(action.payload);
-            }
-            catch (err) {
-                console.log(err.message);
-            }
-        },
-        addEveningSnacks: async (state, action) => {
-            try {
-                const result = await api.addEveningSnacks(action.payload);
-            }
-            catch (err) {
-                console.log(err.message);
-            }
-        },
-        addDinner: async (state, action) => {
-            try {
-                const result = await api.addDinner(action.payload);
-            }
-            catch (err) {
-                throw err;
-            }
-        },
-        removeMeal: async (state, action) => {
-            try {
-                await api.removeMeal(action.payload)
-            } catch (err) {
-                console.log(err.message);
-            }
-        },
-        calcPercentage: (state, action) => {
-
-
-
-        }
-
+      
     },
     extraReducers: {
         [fetchMeals.fulfilled]: (state, action) => {
@@ -182,10 +206,46 @@ export const dashboardSlice = createSlice({
                 let formattedQty = (action.payload.parsedRes.waterIntake) / 1000
                 state.waterQty = formattedQty
             }
+        },
+        [addBreakfastData.fulfilled]: (state, action) => {
+           
+            if (action.payload.status) {
+                state.addStatus = true
+            }
+        },
+        [addMorningSnacksData.fulfilled]: (state, action) => {
+            if (action.payload.status) {
+                state.addStatus = true
+            }
+        },
+        [addLunch.fulfilled]: (state, action) => {
+            if (action.payload.status) {
+                state.addStatus = true
+            }
+        },
+        [addEveningSnacks.fulfilled]: (state, action) => {
+            if (action.payload.status) {
+                state.addStatus = true
+            }
+        },
+        [addDinner.fulfilled]: (state, action) => {
+            if (action.payload.status) {
+                state.addStatus = true
+            }
+        },
+        [removeMeal.fulfilled]: (state, action) => {
+            if (action.payload.status) {
+                state.addStatus = true
+            }
+        },
+        [calcPercentage.fulfilled]: (state, action) => {
+            if (action.payload) {
+                state.totalPercentageCal = action.payload
+            }
         }
     }
 })
 
-export const { addBreakfastData, addMorningSnacksData, addLunch, addEveningSnacks, addDinner, removeMeal, calcPercentage } = dashboardSlice.actions;
+
 
 export default dashboardSlice.reducer;

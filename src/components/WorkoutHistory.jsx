@@ -58,7 +58,7 @@ export default function WorkoutHistory() {
             {isLoggedIn && <div>
                 <Heading title="Workout History" logo={<CgNotes />} desc={"Analyze your workout with your past workout data for each exercise."} />
 
-                <div className='border-b-2 mx-20 mb-5'>
+                <div className='border-b-2 mb-5'>
 
 
                     {/* <div className='my-2'>

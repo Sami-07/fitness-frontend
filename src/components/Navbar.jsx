@@ -3,7 +3,7 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai"
 import FFlogo from "../images/FFlogo.png"
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/Auth/authSlice';
+// import { logout } from '../features/Auth/authSlice';
 import { MdHome } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
@@ -14,16 +14,31 @@ import { LuLogOut } from "react-icons/lu";
 import { LuLogIn } from "react-icons/lu";
 import { FaDumbbell } from "react-icons/fa6";
 import { useParams } from "react-router-dom";
+import { getUser, logout } from '../features/Auth/authSlice';
+import { FaUserCircle } from "react-icons/fa";
+// import { useDispatch } from 'react-redux';
+
 export default function Navbar() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const [clicked, setClicked] = useState("");
+  const [showDetails, setShowDetails] = useState(false);
   const user = useSelector(state => state.auth)
+
   let params = useParams();
-  // useEffect(() => {
-  //   
-  // }, [user])
+  async function f() {
+    const res = await fetch("http://localhost:5000", {
+      credentials: "include"
+    });
+    const data = await res.json();
+  
+  }
+  useEffect(() => {
+    f()
+    dispatch(getUser())
+   
+  }, [])
   useEffect(() => {
     if (!isLoggedIn) {
       // window.location.href = "/";
@@ -62,6 +77,7 @@ export default function Navbar() {
     dispatch(logout());
     window.location.href = "/";
   }
+
   const entries = Object.entries(links)
   return (
     <div>
@@ -75,7 +91,13 @@ export default function Navbar() {
               <a className='text-xl' href={value} >{key}</a>
             )
           })}
-          {isLoggedIn && <p className='text-xl cursor-pointer' onClick={handleLogout} >Logout</p>}
+          
+          {isLoggedIn && <FaUserCircle className='text-3xl' onClick={() => setShowDetails((prevValue => !prevValue))} />}
+         {showDetails && <div className='absolute right-0 top-14 rounded-b-md p-2 bg-myprimecolor'>
+            <p><span className='font-semibold'>username</span> {user?.user.name}</p>
+            <p><span className='font-semibold'>email</span> {user?.user.email}</p>
+            <p className='text font-semibold border-2 text-center mt-4 rounded-md hover:bg-mypink transition-all hover:text-white cursor-pointer' onClick={handleLogout} >Logout</p>
+          </div>}
           {!isLoggedIn && <p className='text-xl cursor-pointer' onClick={() => window.location.href = "/register"} >
             Login</p>}
         </div>
@@ -85,11 +107,11 @@ export default function Navbar() {
       <div className='flex justify-center items-center'>
 
         <div ref={ref} className='gradientbg2 z-20 flex flex-col items-center justify-center transform transition-transform translate-x-full   w-full h-[94vh]  gap-3 fixed top-[6vh]'>
-          {(isLoggedIn && (user && user.user && user.user.displayName)) &&
+          {(isLoggedIn && (user && user.user && user.user.name)) &&
             <div className='flex gap-2 text-center text-white font-semibold text-2xl'>
 
-              {user.user.photoURL &&
-                <img className='rounded-md w-14 h-14' src={user.user.photoURL} alt='profile picture' />}
+              {/* {user.user.photoURL &&
+                <img className='rounded-md w-14 h-14' src={user.user.photoURL} alt='profile picture' />} */}
               <div className='flex flex-col '>
 
                 <span className='text-white '>
@@ -97,7 +119,7 @@ export default function Navbar() {
                 </span>
                 <p className=' text-mypink'>
 
-                  {user.user.displayName}
+                  {user.user.name}
                 </p>
               </div>
             </div>
@@ -110,7 +132,13 @@ export default function Navbar() {
               </a>
             )
           })}
-          {isLoggedIn && <p className='flex bg-transparent border-2 p-2 rounded-xl px-4 items-center gap-4 text-white text-xl font-semibold cursor-pointer' onClick={handleLogout} ><LuLogOut className='text-2xl' />Logout</p>}
+          {isLoggedIn &&
+
+            <p className='flex bg-transparent border-2 p-2 rounded-xl px-4 items-center gap-4 text-white text-xl font-semibold cursor-pointer' onClick={handleLogout} >
+              <LuLogOut className='text-2xl' />Logout</p>
+
+
+          }
           {!isLoggedIn && <p className='flex bg-transparent border-2 p-2 rounded-xl px-4 items-center gap-4 text-white text-xl font-semibold cursor-pointer' onClick={() => window.location.href = "/register"} >
             <LuLogIn />Login</p>}
         </div>
