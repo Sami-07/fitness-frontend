@@ -69,23 +69,7 @@ export default function Register() {
         }
 
         else {
-            // dispatch(register({  userName, email, password  }));
-            const url = "https://fitness-webapp-backend-ft91.onrender.com"
-            const data = await fetch(url + "/register", {
-                method: "POST",
-                credentials: "include",
-    
-                headers: {
-                    "Content-Type": "application/json",
-    
-    
-    
-                },
-                body: JSON.stringify({ userName, email, password })
-            })
-    
-            const pasredData = await data.json();
-            console.log("done register")
+            dispatch(register({  userName, email, password  }));
         }
 
 

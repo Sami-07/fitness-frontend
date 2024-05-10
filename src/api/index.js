@@ -1,4 +1,5 @@
 const url = "https://fitness-webapp-backend-ft91.onrender.com"
+// const url = "http://localhost:5000"
 
 const auth = {}
 export async function getCurrentUser() {
