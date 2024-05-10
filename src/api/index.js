@@ -18,7 +18,7 @@ export async function getCurrentUser() {
 export async function logout() {
     try {
         const res = await fetch(url + "/logout", {
-            method: "GET",
+            method: "POST",
             credentials: "include",
         });
         return { status: true };
