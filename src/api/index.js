@@ -18,8 +18,7 @@ export async function getCurrentUser() {
                 return { user: null };
             }
 
-            // Log the current user for debugging
-            // console.log("Current user:", user.);
+        
             const res = await fetch(url + "/current-user", {
                 method: "GET",
                 credentials: "include",
@@ -416,8 +415,9 @@ export async function addWater(qty) {
 export async function fetchWaterIntake() {
     try {
         const { user } = await getCurrentUser();
+        console.log("user fetchWaterIntake" , user)
         if (!user) {
-            throw new Error("unauthenticated");
+            throw new Error("unauthenticated custom");
         }
         const res = await fetch(url + "/dashboard/fetchwaterintake", {
             method: "GET",
