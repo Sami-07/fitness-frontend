@@ -3,6 +3,28 @@ const url = "https://fitness-webapp-backend-ft91.onrender.com"
 // const url = "http://localhost:5000"
 const clerk = new Clerk(process.env.REACT_APP_PUBLISHABLE_KEY);
 const auth = {}
+ 
+export async function getToken() {
+    try {
+        await clerk.load();
+        if (clerk.loaded) {
+            const session = clerk.session;
+            if (!session) {
+                console.log("Session is not loaded yet.");
+                return null;
+            }
+            return await session.getToken();
+        } else {
+            console.error("Clerk is not loaded yet.");
+            return null;
+        }
+    } catch (error) {
+        console.error("Error loading Clerk:", error);
+        return null;
+    }
+}
+
+
 export async function getCurrentUser() {
     try {
         // Ensure Clerk is loaded before using any methods
@@ -46,6 +68,7 @@ export const saveUser = async (userData) => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                
             },
             body: JSON.stringify(userData),
         });
@@ -129,6 +152,12 @@ export async function getUserAssessment() {
         const result = await fetch(url + "/dashboard/getuserassessment", {
             method: "GET",
             credentials: "include",
+            headers :
+             {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${await getToken()}`,
+             }
+            
         });
         if (!result.ok) {
             throw new Error(`HTTP error! Status: ${result.status}`);
@@ -150,6 +179,11 @@ export async function calculateIntake() {
         const result = await fetch(url + "/dashboard/calculatemacrointake", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedRes = await result.json();
         return { parsedRes };
@@ -168,9 +202,11 @@ export async function addBodyWeight({ weight }) {
         const result = await fetch(url + "/dashboard/addbodyweight", {
             method: "POST",
             credentials: "include",
-            headers: {
+            headers :
+             {
                 "Content-Type": "application/json",
-            },
+                Authorization: `Bearer ${await getToken()}`,
+             } ,
             body: JSON.stringify({ weight })
         });
         const parsedRes = await result.json();
@@ -190,6 +226,11 @@ export async function getTodayBodyWeight() {
         const result = await fetch(url + "/dashboard/gettodaysbodyweight", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedRes = await result.json();
         return { parsedRes };
@@ -208,8 +249,10 @@ export async function updateBodyWeight({ weight }) {
         const result = await fetch(url + "/dashboard/updatebodyweight", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ weight })
         });
@@ -226,8 +269,10 @@ export async function fetchResults(term) {
         const result = await fetch(url + "/dashboard/fetchresults", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ term })
         });
@@ -266,6 +311,11 @@ export async function getMeals() {
         const result = await fetch(url + "/dashboard/getmeals", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedResult = await result.json();
         return { data: parsedResult.data };
@@ -279,6 +329,11 @@ export async function fetchBreakfastData() {
     try {
         await fetch(url + '/dashboard/getbreakfastinfo', {
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
     } catch (error) {
         console.error("Error in fetchBreakfastData:", error);
@@ -292,8 +347,10 @@ export async function addBreakfastData(breakfastFoodData) {
         const data = await fetch(url + '/dashboard/addbreakfast', {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(breakfastFoodData)
         });
@@ -315,8 +372,10 @@ export async function addMorningSnacksData(morningSnacksData) {
         const res = await fetch(url + '/dashboard/addmorningsnacks', {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(morningSnacksData)
         });
@@ -339,8 +398,10 @@ export async function addLunch(lunchData) {
         const res = await fetch(url + '/dashboard/addlunch', {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(lunchData)
         });
@@ -358,8 +419,10 @@ export async function addEveningSnacks(eveningSnacksData) {
         const res = await fetch(url + '/dashboard/addeveningsnacks', {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(eveningSnacksData)
         });
@@ -377,8 +440,10 @@ export async function addDinner(dinnerData) {
         const res = await fetch(url + '/dashboard/adddinner', {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(dinnerData)
         });
@@ -399,8 +464,10 @@ export async function addWater(qty) {
         const res = await fetch(url + "/dashboard/addwater", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ qty })
         });
@@ -422,6 +489,11 @@ export async function fetchWaterIntake() {
         const res = await fetch(url + "/dashboard/fetchwaterintake", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedRes = await res.json();
         return { parsedRes };
@@ -440,8 +512,10 @@ export async function getFoodNutrients(foodName) {
         const res = await fetch(url + `/dashboard/foodnutrients`, {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ foodName })
         });
@@ -462,9 +536,11 @@ export async function getExistingMealNutrients(foodName, mealType) {
         const res = await fetch(url + "/dashboard/getexistingmealnutrients", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers :
+             {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${await getToken()}`,
+             },
             body: JSON.stringify({ foodName, mealType })
         });
         const parsedRes = await res.json();
@@ -484,6 +560,11 @@ export async function getAllCustomMeals() {
         const res = await fetch(url + "/dashboard/getallcustommeals", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedRes = await res.json();
         return parsedRes;
@@ -502,8 +583,10 @@ export async function addCustomMeal(customMealDetails) {
         const res = await fetch(url + "/dashboard/addcustommeal", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(customMealDetails)
         });
@@ -524,9 +607,11 @@ export async function removeMeal(foodItem, mealType) {
         await fetch(url + "/dashboard/removemeal", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers :
+             {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${await getToken()}`,
+             },
             body: JSON.stringify({ foodItem, mealType })
         });
     } catch (error) {
@@ -544,8 +629,10 @@ export async function getExercises(muscle) {
         const res = await fetch(url + "/dashboard/getexercises", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ muscle })
         });
@@ -566,8 +653,10 @@ export async function addWorkout(data) {
         const res = await fetch(url + "/dashboard/addworkout", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json"
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(data)
         });
@@ -588,6 +677,11 @@ export async function getWorkoutDetails() {
         const res = await fetch(url + "/dashboard/getworkoutdetails", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedRes = await res.json();
         return { parsedRes };
@@ -606,8 +700,10 @@ export async function changeWorkoutDay(workoutDay) {
         const res = await fetch(url + "/dashboard/editworkoutday", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ workoutDay }),
         });
@@ -628,8 +724,10 @@ export async function editSet(data) {
         const res = await fetch(url + "/dashboard/editset", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify(data),
         });
@@ -650,9 +748,11 @@ export async function deleteSet(data) {
         const res = await fetch(url + "/dashboard/deleteset", {
             method: "POST",
             credentials: "include",
-            headers: {
+            headers :
+             {
                 "Content-Type": "application/json",
-            },
+                Authorization: `Bearer ${await getToken()}`,
+             },
             body: JSON.stringify(data),
         });
         const parsedRes = await res.json();
@@ -672,8 +772,10 @@ export async function fetchWorkoutForADay(selectedDate) {
         const res = await fetch(url + "/dashboard/fetchworkoutforaday", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ selectedDate }),
         });
@@ -694,6 +796,11 @@ export async function getAllExercises() {
         const res = await fetch(url + "/dashboard/getallexercises", {
             method: "GET",
             credentials: "include",
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
+            }
         });
         const parsedRes = await res.json();
         return parsedRes;
@@ -717,9 +824,10 @@ export async function addAssessmentDetails({ age, gender, height, weight, approa
         const response = await fetch(url + "/dashboard/addassessmentdetails", {
             method: "POST",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-
+            headers :
+            {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${await getToken()}`,
             },
             body: JSON.stringify({ age, gender, height, weight, approach, goalWeight, activityLevel })
         });
