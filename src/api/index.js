@@ -1,18 +1,46 @@
+import  {Clerk} from "@clerk/clerk-js"
 const url = "https://fitness-webapp-backend-ft91.onrender.com"
 // const url = "http://localhost:5000"
-
+const clerk = new Clerk(process.env.REACT_APP_PUBLISHABLE_KEY);
 const auth = {}
 export async function getCurrentUser() {
-    const res = await fetch(url + "/current-user", {
-        method: "GET",
-        credentials: "include",
-    })
-    console.log("getCurrentUser for state beforee:", res)
-    const parsedRes = await res.json();
-    console.log("getCurrentUser for state:", parsedRes)
-    return { user: parsedRes?.user };
-}
+    try {
+        // Ensure Clerk is loaded before using any methods
+        await clerk.load();
 
+        // Check if Clerk is loaded and ready
+        if (clerk.loaded) {
+            // Access the current user directly from Clerk
+            const user = clerk.user;
+            const session = clerk.session;
+          if (!session) {
+                console.log("Session is not loaded yet.");
+                return { user: null };
+            }
+
+            // Log the current user for debugging
+            // console.log("Current user:", user.);
+            const res = await fetch(url + "/current-user", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${await session.getToken()}`,
+                },
+        
+            })
+            const parsedRes = await res.json();
+            console.log("getCurrentUser for state:", parsedRes)
+            return { user: parsedRes?.user };
+        } else {
+            console.error("Clerk is not loaded yet.");
+            return { user: null };
+        }
+    } catch (error) {
+        console.error("Error loading Clerk:", error);
+        return { user: null };
+    }
+}
 export const saveUser = async (userData) => {
     try {
         const response = await fetch(url + "/save-user", {
