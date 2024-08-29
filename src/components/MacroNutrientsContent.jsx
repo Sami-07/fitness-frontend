@@ -121,7 +121,7 @@ export default function MacroNutrientsContent() {
     else if (mealType == "dinner") {
       dispatch(addDinner(newFoodInfo2))
     }
-    window.location.href = "/foodtracker"
+    // window.location.href = "/foodtracker"
   }
   return (
     <form onSubmit={handleSubmit} >

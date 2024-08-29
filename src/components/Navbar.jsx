@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { getUser, logout } from '../features/Auth/authSlice';
 import { FaUserCircle } from "react-icons/fa";
 // import { useDispatch } from 'react-redux';
-
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 export default function Navbar() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -32,12 +32,12 @@ export default function Navbar() {
       credentials: "include"
     });
     const data = await res.json();
-  
+
   }
   useEffect(() => {
     // f()
     dispatch(getUser())
-   
+
   }, [])
   useEffect(() => {
     if (!isLoggedIn) {
@@ -81,7 +81,7 @@ export default function Navbar() {
   const entries = Object.entries(links)
   return (
     <div>
-      <nav className='flex bg-myprimecolor px-3 fixed top-0  h-[6vh] md:h-[8vh] w-full  justify-between items-center z-10'>
+      <nav className='flex bg-myprimecolor px-3 fixed top-0  h-[6vh] md:h-[8vh] w-full  justify-between items-center z-10 md:pr-20'>
 
         <img className='w-9 h-9 rounded-full' src={FFlogo} alt='logo' />
         <div className='hidden md:flex gap-10 justify-center   items-center'>
@@ -91,13 +91,16 @@ export default function Navbar() {
               <a className='text-xl' href={value} >{key}</a>
             )
           })}
-          
-          {isLoggedIn && <FaUserCircle className='text-3xl' onClick={() => setShowDetails((prevValue => !prevValue))} />}
-         {showDetails && <div className='absolute right-0 top-14 rounded-b-md p-2 bg-myprimecolor'>
-            <p><span className='font-semibold'>username</span> {user?.user.name}</p>
-            <p><span className='font-semibold'>email</span> {user?.user.email}</p>
-            <p className='text font-semibold border-2 text-center mt-4 rounded-md hover:bg-mypink transition-all hover:text-white cursor-pointer' onClick={handleLogout} >Logout</p>
-          </div>}
+
+
+          <div className='absolute right-4 top-4 rounded-b-md p-2 bg-myprimecolor'>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
           {!isLoggedIn && <p className='text-xl cursor-pointer' onClick={() => window.location.href = "/register"} >
             Login</p>}
         </div>
@@ -118,8 +121,17 @@ export default function Navbar() {
                   Hello,
                 </span>
                 <p className=' text-mypink'>
+                <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+          <div className='flex justify-center items-center gap-2'>
 
+            <UserButton />
+          
                   {user.user.name}
+         </div>
+          </SignedIn>
                 </p>
               </div>
             </div>
@@ -132,15 +144,7 @@ export default function Navbar() {
               </a>
             )
           })}
-          {isLoggedIn &&
-
-            <p className='flex bg-transparent border-2 p-2 rounded-xl px-4 items-center gap-4 text-white text-xl font-semibold cursor-pointer' onClick={handleLogout} >
-              <LuLogOut className='text-2xl' />Logout</p>
-
-
-          }
-          {!isLoggedIn && <p className='flex bg-transparent border-2 p-2 rounded-xl px-4 items-center gap-4 text-white text-xl font-semibold cursor-pointer' onClick={() => window.location.href = "/register"} >
-            <LuLogIn />Login</p>}
+        
         </div>
       </div>
     </div>

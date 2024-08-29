@@ -37,10 +37,11 @@ export const register = createAsyncThunk("register", async ({ email, password, u
 })
 export const getUser = createAsyncThunk("getUser", async () => {
     try {
+        console.log("get user")
         const res = await api.getCurrentUser()
         if (res) {
 
-
+            console.log("user", res)
             return { user: res.user }
         }
     }
@@ -125,6 +126,7 @@ export const authSlice = createSlice({
             if (action.payload.user) {
                 state.user = action.payload.user
                 state.isLoggedIn = true
+                console.log("user", state.user)
             }
             else {
                 state.isLoggedIn = false

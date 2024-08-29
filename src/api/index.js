@@ -3,17 +3,37 @@ const url = "https://fitness-webapp-backend-ft91.onrender.com"
 
 const auth = {}
 export async function getCurrentUser() {
-    const res = await fetch(url + "/dashboard/getcurrentuser", {
+    const res = await fetch(url + "/current-user", {
         method: "GET",
         credentials: "include",
 
     })
+    console.log("getCurrentUser for state beforee:", res)
     const parsedRes = await res.json();
-
+    console.log("getCurrentUser for state:", parsedRes)
     return { user: parsedRes?.user };
 
 
 }
+
+export const saveUser = async (userData) => {
+    try {
+        const response = await fetch(url + "/save-user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+        });
+        if (!response.ok) {
+          return { status: false, error: "Failed to save user info" };
+        }
+     return { status: true };
+    } catch (error) {
+        console.error("Error saving user info:", error);
+        return { status: false, error: "Failed to save user info" };
+    }
+};
 
 export async function logout() {
     try {

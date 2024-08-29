@@ -46,7 +46,7 @@ export default function Dinner() {
   }, [totalCalories])
   function handleDelete(foodItem, mealType) {
     removeMeal(foodItem, mealType)
-    window.location.href = "/foodtracker"
+    // window.location.href = "/foodtracker"
     toast.success('Food Item removed.', {
       position: "top-center",
       autoClose: 5000,
@@ -75,7 +75,7 @@ export default function Dinner() {
       <div>
 
         <div className='flex justify-between pt-4 pb-2'>
-          <p>Dinner</p><p>{calories.toFixed(2)} of 712 Cal</p>
+          <p>Dinner</p><p>{calories.toFixed(2)}  Cal</p>
         </div>
         <div className='bg-white rounded-xl flex flex-col gap-6 py-4 px-2'>
           {(result && result.length > 0 && result[0].dinner) && Object.keys(result[0].dinner).map(foodItem => {
