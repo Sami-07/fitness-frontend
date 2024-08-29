@@ -1,7 +1,6 @@
 // import React, { useEffect, useState } from 'react'
-// import Heading from '../ReusableComponents/Heading';
 // import Button from '../ReusableComponents/Button';
-// import FFlogo from "../images/FFlogo.png"
+
 // import { FcGoogle } from "react-icons/fc";
 // import { FiLogIn } from "react-icons/fi";
 // import { useDispatch, useSelector } from "react-redux";
@@ -87,44 +86,25 @@ import * as React from 'react'
 import { SignIn, useSignIn, useUser } from '@clerk/clerk-react'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 import { saveUser } from '../api'
-
+import Heading from '../ReusableComponents/Heading';
+import FFlogo from "../images/FFlogo.png"
 export default function OauthSignIn() {
   const { signIn } = useSignIn()
   const { user } = useUser()
 
-  // Function to send user data to backend
-  const saveUserInfoToBackend = async (userData) => {
-    // try {
-    //   const response = await fetch('/your-backend-api/save-user', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(userData),
-    //   })
-
-    //   if (!response.ok) {
-    //     throw new Error('Failed to save user info')
-    //   }
-
-    //   console.log('User info saved successfully')
-    // } catch (error) {
-    //   console.error('Error saving user info:', error)
-    // }
-    console.log('User info saved successfully', userData)
-  }
 
 
   React.useEffect(() => {
-    // If the user is signed in, send their info to the backend
+
     async function saveUserToBackend() {
       if (user) {
         const { emailAddress } = user.primaryEmailAddress
         const fullName = user.fullName
         const id = user.id
-        const res = await saveUser({id, email: emailAddress, name: fullName })
+        const res = await saveUser({ id, email: emailAddress, name: fullName })
         if (res.status === true) {
           console.log('User info saved successfully')
+          window.location.href = "/mydashboard"
         }
         else {
           console.log('User info not saved')
@@ -152,13 +132,13 @@ export default function OauthSignIn() {
   }
 
   return (
-    <div className='mt-20'>
+    <div className=' mx-auto flex justify-center items-center flex-col h-screen'>
+      <img className=' h-14 w-14 mx-auto  rounded-lg ' src={FFlogo} alt='logo' />
+      <Heading title={"Login to Fitness Freak"} />
       <SignedOut>
         <SignInButton />
       </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+
     </div>
   )
 }

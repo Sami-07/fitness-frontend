@@ -17,18 +17,24 @@ import NotLoggedIn from "../ReusableComponents/NotLoggedIn";
 import { getGoogleFitSteps } from "../api";
 export default function Dashboard() {
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
+
     const today = new Date();
     const date = today.getDate();
     const month = today.toLocaleString('default', { month: 'short' });
     const [per, setPer] = useState("");
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const assessmentData = useSelector(state => state.assessment.data);
     const dashboardApp = useSelector(state => state.app);
     useEffect(() => {
+        if(isLoggedIn){
         dispatch(fetchMeals());
-        dispatch(getUserAssessment()) 
+        dispatch(getUserAssessment())
         dispatch(fetchWaterIntake());
-    }, [])
+
+
+        }
+    }, [isLoggedIn])
 
     const waterIntake = useSelector(state => state.app.waterQty)
     useEffect(() => {
@@ -37,7 +43,7 @@ export default function Dashboard() {
     useEffect(() => {
         if (dashboardApp && dashboardApp.totalCalories && assessmentData && assessmentData.calorieIntake) {
             const x = (dashboardApp.totalCalories / assessmentData.calorieIntake) * 100
-            
+
             setPer(x);
         }
     }, [dashboardApp, assessmentData])
@@ -63,7 +69,7 @@ export default function Dashboard() {
 
 
 
-            {(assessmentData && Object.keys(assessmentData).length > 0 && dashboardApp && Object.keys(dashboardApp).length > 0) && <div>
+            {(isLoggedIn && assessmentData && Object.keys(assessmentData).length > 0 && dashboardApp && Object.keys(dashboardApp).length > 0) && <div>
 
 
                 <Heading title={"Fitness Tracker"} logo={<MdOutlineFitbit />} />
@@ -114,8 +120,8 @@ export default function Dashboard() {
                             {!per && <MyRadialBar percentage={0} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
                             {(dashboardApp && assessmentData && Object.keys(dashboardApp).length > 0 && per) && <MyRadialBar percentage={per} title={"Calories"} labelFontSize={"10px"} valueFontSize={"16px"} />}
                             {(dashboardApp && assessmentData) && <p className="text-xs">
-                                    {(assessmentData.calorieIntake - dashboardApp.totalCalories).toPrecision(4)}   of {assessmentData.calorieIntake} Cal  remaining
-                                </p>}
+                                {(assessmentData.calorieIntake - dashboardApp.totalCalories).toPrecision(4)}   of {assessmentData.calorieIntake} Cal  remaining
+                            </p>}
                         </div>
                         <div className={`shadow-xl border-2 flex flex-col justify-center items-center gap-0 p-4  rounded-2xl `} >
                             <h3 className='text-center font-semibold'>Protein Intake</h3>

@@ -81,7 +81,7 @@ export default function Navbar() {
   const entries = Object.entries(links)
   return (
     <div>
-      <nav className='flex bg-myprimecolor px-3 fixed top-0  h-[6vh] md:h-[8vh] w-full  justify-between items-center z-10 md:pr-20'>
+      <nav className='flex bg-myprimecolor px-3 fixed top-0  h-[6vh] md:h-[8vh] w-full  justify-between items-center z-10 md:pr-36'>
 
         <img className='w-9 h-9 rounded-full' src={FFlogo} alt='logo' />
         <div className='hidden md:flex gap-10 justify-center   items-center'>
@@ -93,16 +93,22 @@ export default function Navbar() {
           })}
 
 
-          <div className='absolute right-4 top-4 rounded-b-md p-2 bg-myprimecolor'>
+          <div className='absolute right-4 top-2 rounded-b-md p-2 bg-myprimecolor'>
             <SignedOut>
-              <SignInButton />
+              <button onClick={() => window.location.href = "/login"} className='text-black font-semibold flex gap-2 items-center bg-slate-500 p-2 rounded-md'>
+
+                Login
+                <LuLogIn className='text-2xl' />
+              </button>
             </SignedOut>
             <SignedIn>
-              <UserButton />
+              <div className='mt-2'>
+
+                <UserButton />
+              </div>
             </SignedIn>
           </div>
-          {!isLoggedIn && <p className='text-xl cursor-pointer' onClick={() => window.location.href = "/register"} >
-            Login</p>}
+
         </div>
         {!open && <HiOutlineMenuAlt3 onClick={openNavbar} className='text-3xl md:hidden' />}
         {open && <AiOutlineClose onClick={toggleHamburger} className='text-3xl md:hidden' />}
@@ -121,17 +127,17 @@ export default function Navbar() {
                   Hello,
                 </span>
                 <p className=' text-mypink'>
-                <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-          <div className='flex justify-center items-center gap-2'>
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                  <SignedIn>
+                    <div className='flex justify-center items-center gap-2'>
 
-            <UserButton />
-          
-                  {user.user.name}
-         </div>
-          </SignedIn>
+                      <UserButton />
+
+                      {user.user.name}
+                    </div>
+                  </SignedIn>
                 </p>
               </div>
             </div>
@@ -144,7 +150,7 @@ export default function Navbar() {
               </a>
             )
           })}
-        
+
         </div>
       </div>
     </div>

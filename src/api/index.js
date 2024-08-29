@@ -6,14 +6,11 @@ export async function getCurrentUser() {
     const res = await fetch(url + "/current-user", {
         method: "GET",
         credentials: "include",
-
     })
     console.log("getCurrentUser for state beforee:", res)
     const parsedRes = await res.json();
     console.log("getCurrentUser for state:", parsedRes)
     return { user: parsedRes?.user };
-
-
 }
 
 export const saveUser = async (userData) => {
